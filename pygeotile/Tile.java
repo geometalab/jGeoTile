@@ -6,6 +6,7 @@ public class Tile {
 	int zoom;
 	int tmsX;
 	int tmsY;
+	float tileSize = Meta.TILE_SIZE;
 
 	private Tile(int tms_x, int tms_y, int zoom) {
 		tms_x = this.tmsX;
@@ -73,22 +74,32 @@ public class Tile {
 		return new Tile(tmsX, tmsY, zoom);
 	}
 
-	public void forPoint(int point, int zoom) {
+	public void forPoint(/*Point point,*/ int zoom) {
 		// """Creates a tile for given point"""
+		//TODO when Point is implemented
 	}
 
-	public void forPixels(int pixel_x, int pixel_y, int zoom) {
+	public Tile forPixels(int pixelX, int pixelY, int zoom) {
 		// """Creates a tile from pixels X Y Z (zoom) in pyramid"""
+		tmsX = (int) (Math.ceil(pixelX / tileSize)-1);
+		tmsY = (int) (Math.ceil(pixelY / tileSize)-1);
+		
+		return new Tile(tmsX, tmsY, zoom);
 	}
 
 	public void forMeters(int meter_x, int meter_y, int zoom) {
 		// """Creates a tile from X Y meters in Spherical Mercator EPSG:900913"""
+		
 	}
 
 	public void forLatitudeLongitude(int latitude, int longitude, int zoom) {
 		// """Creates a tile from lat/lon in WGS84"""
 	}
-
+	public int[] getTms() {
+		//gives out tmsX and tmsY in an int array
+		int [] tms = {tmsX,tmsY};
+		return tms;
+	}
 	public int getTmsX() {
 		return tmsX;
 	}
@@ -97,13 +108,29 @@ public class Tile {
 		return tmsY;
 	}
 
-	public void quadTree() {
+	public String quadTree() {
 		// """Gets the tile in the Microsoft QuadTree format, converted from TMS"""
+		StringBuilder quadKey = new StringBuilder();
+		for(int i = zoom; i > 0; --i) {
+			char digit = '0';
+			int mask = 1 << (i -1);
+			if ((tmsX & mask) != 0) {
+				digit++;
+			}
+			if((tmsY & mask)!=0) {
+				digit++;
+				digit++;
+			}
+			quadKey.append(digit);
+		}
+		return quadKey.toString();
 
 	}
 
-	public void getGoogle() {
+	public int[] getGoogle() {
 		// """Gets the tile in the Google format, converted from TMS"""
+		int[] google = {tmsX, (2*zoom-1)-tmsY};
+		return google;
 	}
 
 	public void bounds() {
