@@ -165,7 +165,7 @@ public class Tile {
 	 * 
 	 * @return Returns the QuadTree String converted from TMS
 	 */
-	public String quadTree() {
+	public static String quadTree() {
 		// """Gets the tile in the Microsoft QuadTree format, converted from TMS"""
 		StringBuilder quadKey = new StringBuilder();
 		for (int i = zoom; i > 0; --i) {
@@ -201,15 +201,15 @@ public class Tile {
 	 *         the Tile.
 	 * 
 	 */
-	public Point[] bounds() {
+	public static Point[] bounds() {
 		// """Gets the bounds of a tile represented as the most west and south point and
 		// the most east and north point"""
 		int googleX = getGoogle()[0];
 		int googleY = getGoogle()[1];
-		double pixelXWest = googleX * tileSize;
-		double pixelYNorth = googleY * tileSize;
-		double pixelXEast = (googleX + 1) * tileSize;
-		double pixelYSouth = (googleY + 1) * tileSize;
+		int pixelXWest = (int) (googleX * tileSize);
+		int pixelYNorth = (int) (googleY * tileSize);
+		int pixelXEast = (int) ((googleX + 1) * tileSize);
+		int pixelYSouth = (int) ((googleY + 1) * tileSize);
 
 		Point pointMin = Point.fromPixel(pixelXWest, pixelYSouth, zoom);
 		Point pointMax = Point.fromPixel(pixelXEast, pixelYNorth, zoom);
