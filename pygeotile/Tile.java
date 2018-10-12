@@ -3,13 +3,14 @@ import java.lang.Math;
 //import java.util.regex;
 
 public class Tile {
-	int zoom;
-	int tmsX;
-	int tmsY;
-	float tileSize = Meta.TILE_SIZE;
+	static int zoom;
+	static int tmsX;
+	static int tmsY;
+	static float tileSize = Meta.TILE_SIZE;
 
 	/**
 	 * Constructor for Tile
+	 * 
 	 * @param longitude
 	 * @param latitude
 	 * @param zoom
@@ -65,16 +66,12 @@ public class Tile {
 	 * @param tmsY
 	 * @return
 	 */
-	public Tile fromTms(int zoom, int tmsX, int tmsY) {
+	public static Tile fromTms(int tmsX, int tmsY,int zoom) {
 		// """Creates a tile from Tile Map Service (TMS) X Y and zoom"""
 		int max_tile = (2 * zoom) - 1;
-		if (0 > tmsX || tmsX > max_tile) {
-			System.out.println("TMS X needs to be a value between 0 and (2^zoom) -1.");
-		}
+		assert 0 <= tmsX && tmsX <= max_tile:"TMS X needs to be a value between 0 and (2^zoom) -1.";
+		assert 0 <= tmsY && tmsY <= max_tile:"TMS Y needs to be a value between 0 and (2^zoom) -1.";
 
-		if (0 > tmsY || tmsY > max_tile) {
-			System.out.println("TMS Y needs to be a value between 0 and (2^zoom) -1.");
-		}
 		//
 		return new Tile(tmsX, tmsY, zoom);
 	}
@@ -86,15 +83,11 @@ public class Tile {
 	 * @param zoom
 	 * @return
 	 */
-	public Tile fromGoogle(int googleX, int googleY, int zoom) {
+	public static Tile fromGoogle(int googleX, int googleY, int zoom) {
 		// """Creates a tile from Google format X Y and zoom"""
 		int max_tile = (2 * zoom) - 1;
-		if (0 > googleX || googleX > max_tile) {
-			System.out.println("Google X needs to be a value between 0 and (2^zoom) -1.");
-		}
-		if (0 > googleY || googleY > max_tile) {
-			System.out.println("Google Y needs to be a value between 0 and (2^zoom) -1.");
-		}
+		assert 0 <= googleX && googleX <= max_tile:"Google X needs to be a value between 0 and (2^zoom) -1.";
+		assert 0 <= googleY && googleY <= max_tile:"Google Y needs to be a value between 0 and (2^zoom) -1.";
 		tmsX = googleX;
 		tmsY = (2 * zoom - 1) - googleY;
 		return new Tile(tmsX, tmsY, zoom);
@@ -110,7 +103,7 @@ public class Tile {
 		// """Creates a tile for given point"""
 		double latitude = point.getLatitude();
 		double longitude = point.getLongitude();
-		return new Tile(longitude,latitude, zoom);
+		return new Tile(longitude, latitude, zoom);
 	}
 
 	/**
@@ -120,11 +113,11 @@ public class Tile {
 	 * @param zoom
 	 * @return
 	 */
-	public Tile forPixels(int pixelX, int pixelY, int zoom) {
+	public static Tile forPixels(int pixelX, int pixelY, int zoom) {
 		// """Creates a tile from pixels X Y Z (zoom) in pyramid"""
-		tmsX = (int) (Math.ceil(pixelX / tileSize)-1);
-		tmsY = (int) (Math.ceil(pixelY / tileSize)-1);
-		
+		tmsX = (int) (Math.ceil(pixelX / tileSize) - 1);
+		tmsY = (int) (Math.ceil(pixelY / tileSize) - 1);
+
 		return new Tile(tmsX, tmsY, zoom);
 	}
 
@@ -140,7 +133,7 @@ public class Tile {
 		Point point = Point.fromMeters(meterX, meterY);
 		int pixelX2 = point.getPixelX(zoom);
 		int pixelY2 = point.getPixelY(zoom);
-		return forPixels(pixelX2,pixelY2,zoom);
+		return forPixels(pixelX2, pixelY2, zoom);
 	}
 
 	/**
@@ -155,19 +148,19 @@ public class Tile {
 		Point point = Point.fromLatitudeLongitude(latitude, longitude);
 		int pixelX = point.getPixelX(zoom);
 		int pixelY = point.getPixelY(zoom);
-		return forPixels(pixelX,pixelY,zoom);
+		return forPixels(pixelX, pixelY, zoom);
 	}
-	
+
 	/**
 	 * 
 	 * @return retunrs an Int array containing the X and Y values from this TMS
 	 */
 	public int[] getTms() {
-		//gives out tmsX and tmsY in an int array
-		int [] tms = {tmsX,tmsY};
+		// gives out tmsX and tmsY in an int array
+		int[] tms = { tmsX, tmsY };
 		return tms;
 	}
-	
+
 	/**
 	 * 
 	 * @return Returns the QuadTree String converted from TMS
@@ -175,13 +168,13 @@ public class Tile {
 	public String quadTree() {
 		// """Gets the tile in the Microsoft QuadTree format, converted from TMS"""
 		StringBuilder quadKey = new StringBuilder();
-		for(int i = zoom; i > 0; --i) {
+		for (int i = zoom; i > 0; --i) {
 			char digit = '0';
-			int mask = 1 << (i -1);
+			int mask = 1 << (i - 1);
 			if ((tmsX & mask) != 0) {
 				digit++;
 			}
-			if((tmsY & mask)!=0) {
+			if ((tmsY & mask) != 0) {
 				digit++;
 				digit++;
 			}
@@ -190,19 +183,22 @@ public class Tile {
 		return quadKey.toString();
 
 	}
+
 	/**
 	 * 
-	 * @return An int Array containing the X and Y values for the Google format, converted from TMS
+	 * @return An int Array containing the X and Y values for the Google format,
+	 *         converted from TMS
 	 */
-	public int[] getGoogle() {
+	public static int[] getGoogle() {
 		// """Gets the tile in the Google format, converted from TMS"""
-		int[] google = {tmsX, (2*zoom-1)-tmsY};
+		int[] google = { tmsX, (2 * zoom - 1) - tmsY };
 		return google;
 	}
-	
+
 	/**
 	 * 
-	 * @return A Point Array that containst bottom right and the top Left point of the Tile.
+	 * @return A Point Array that containst bottom right and the top Left point of
+	 *         the Tile.
 	 * 
 	 */
 	public Point[] bounds() {
@@ -212,12 +208,12 @@ public class Tile {
 		int googleY = getGoogle()[1];
 		double pixelXWest = googleX * tileSize;
 		double pixelYNorth = googleY * tileSize;
-		double pixelXEast = (googleX+1) * tileSize;
-		double pixelYSouth = (googleY+1) * tileSize;
-		
+		double pixelXEast = (googleX + 1) * tileSize;
+		double pixelYSouth = (googleY + 1) * tileSize;
+
 		Point pointMin = Point.fromPixel(pixelXWest, pixelYSouth, zoom);
-		Point pointMax = Point.fromPixel(pixelXEast, pixelYNorth,zoom);
-		Point[] bounds = {pointMin, pointMax};
+		Point pointMax = Point.fromPixel(pixelXEast, pixelYNorth, zoom);
+		Point[] bounds = { pointMin, pointMax };
 		return bounds;
 
 	}
