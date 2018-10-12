@@ -8,9 +8,9 @@ public class Tile {
 	int tmsY;
 	float tileSize = Meta.TILE_SIZE;
 
-	private Tile(int tms_x, int tms_y, int zoom) {
-		tms_x = this.tmsX;
-		tms_y = this.tmsY;
+	private Tile(double longitude, double latitude, int zoom) {
+		longitude = this.tmsX;
+		latitude = this.tmsY;
 		zoom = this.zoom;
 	}
 
@@ -74,9 +74,11 @@ public class Tile {
 		return new Tile(tmsX, tmsY, zoom);
 	}
 
-	public void forPoint(/*Point point,*/ int zoom) {
+	public Tile forPoint(Point point, int zoom) {
 		// """Creates a tile for given point"""
-		//TODO when Point is implemented
+		double latitude = point.getLatitude();
+		double longitude = point.getLongitude();
+		return new Tile(longitude,latitude, zoom);
 	}
 
 	public Tile forPixels(int pixelX, int pixelY, int zoom) {
@@ -87,25 +89,25 @@ public class Tile {
 		return new Tile(tmsX, tmsY, zoom);
 	}
 
-	public void forMeters(int meter_x, int meter_y, int zoom) {
+	public Tile forMeters(double meterX, double meterY, int zoom) {
 		// """Creates a tile from X Y meters in Spherical Mercator EPSG:900913"""
-		
+		Point point = Point.fromMeters(meterX, meterY);
+		int pixelX2 = point.getPixelX(zoom);
+		int pixelY2 = point.getPixelY(zoom);
+		return forPixels(pixelX2,pixelY2,zoom);
 	}
 
-	public void forLatitudeLongitude(int latitude, int longitude, int zoom) {
+	public Tile forLatitudeLongitude(double latitude, double longitude, int zoom) {
 		// """Creates a tile from lat/lon in WGS84"""
+		Point point = Point.fromLatitudeLongitude(latitude, longitude);
+		int pixelX = point.getPixelX(zoom);
+		int pixelY = point.getPixelY(zoom);
+		return forPixels(pixelX,pixelY,zoom);
 	}
 	public int[] getTms() {
 		//gives out tmsX and tmsY in an int array
 		int [] tms = {tmsX,tmsY};
 		return tms;
-	}
-	public int getTmsX() {
-		return tmsX;
-	}
-
-	public int getTmsY() {
-		return tmsY;
 	}
 
 	public String quadTree() {
