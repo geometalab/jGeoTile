@@ -7,12 +7,8 @@
 
 public class Point {
 	
-	private double latitude = 0.0;
-	private double longitude = 0.0;
-	private double meterX = 0.0;
-	private double meterY = 0.0;
-	private int pixelX = 0;
-	private int pixelY = 0;
+	private double latitude;
+	private double longitude;
 	
 	/**
 	 * Constructor
@@ -30,10 +26,9 @@ public class Point {
 	 * @param longitude
 	 * @return Point
 	 */
-	public Point fromLatitudeLongitude(double latitude, double longitude) {
-        if(-180.0 > longitude && longitude > 180.0) {
-        	System.out.println("Longitude needs to be a value between -180.0 and 180.0.");
-        }
+	public static Point fromLatitudeLongitude(double latitude, double longitude) {
+        assert -180.0 > longitude && longitude > 180.0 :
+        	"Longitude needs to be a value between -180.0 and 180.0.";
         if(-90.0 > latitude && latitude > 90.0) {
         	System.out.println("Latitude needs to be a value between -90.0 and 90.0.");
         }
@@ -47,7 +42,7 @@ public class Point {
 	 * @param zoom
 	 * @return Point
 	 */
-	public Point fromPixel(int pixelX, int pixelY, int zoom) {
+	public static Point fromPixel(int pixelX, int pixelY, int zoom) {
 		int maxPixel = (int)((Math.pow(2,zoom)) * Meta.TILE_SIZE);
 		if(0 > pixelX && pixelX > maxPixel) {
 			System.out.println("Point X needs to be a value between 0 and (2^zoom) * 256.");
@@ -55,8 +50,8 @@ public class Point {
 		if(0 > pixelY && pixelY > maxPixel) {
 			System.out.println("Point Y needs to be a value between 0 and (2^zoom) * 256.");
 		}
-		meterX = pixelX * Meta.resolution(zoom) - Meta.ORIGIN_SHIFT;
-		meterY = pixelY * Meta.resolution(zoom) - Meta.ORIGIN_SHIFT;
+		double meterX = pixelX * Meta.resolution(zoom) - Meta.ORIGIN_SHIFT;
+		double meterY = pixelY * Meta.resolution(zoom) - Meta.ORIGIN_SHIFT;
 		meterX = signMeterX(meterX, pixelX, zoom);
 		meterY = signMeterY(meterY, pixelY, zoom);
 		return fromMeters(meterX, meterY);
@@ -68,15 +63,15 @@ public class Point {
 	 * @param meterY
 	 * @return Point
 	 */
-	public Point fromMeters(double meterX, double meterY) {
+	public static Point fromMeters(double meterX, double meterY) {
 	    if(-Meta.ORIGIN_SHIFT > meterX && meterX > Meta.ORIGIN_SHIFT) {
 	        System.out.println("Meter X needs to be a value between " + -Meta.ORIGIN_SHIFT + " and " + Meta.ORIGIN_SHIFT + ".");
 	    }
 	    if(-Meta.ORIGIN_SHIFT > meterY && meterY > Meta.ORIGIN_SHIFT) {
 	       System.out.println("Meter Y needs to be a value between " + -Meta.ORIGIN_SHIFT + " and " + Meta.ORIGIN_SHIFT + ".");
 	    }
-	    longitude = (meterX / Meta.ORIGIN_SHIFT) * 180.0;
-	    latitude = (meterY / Meta.ORIGIN_SHIFT) * 180.0;
+	    double longitude = (meterX / Meta.ORIGIN_SHIFT) * 180.0;
+	    double  latitude = (meterY / Meta.ORIGIN_SHIFT) * 180.0;
 	    latitude = 180.0 / Math.PI * (2 * Math.atan(Math.exp(latitude * Math.PI / 180.0)) - Math.PI / 2.0);
 		return new Point(latitude, longitude);
 	}
@@ -103,7 +98,7 @@ public class Point {
 	 * @return pixelX
 	 */
 	public int getPixelX(int zoom) {
-        pixelX = (int)((meterX + Meta.ORIGIN_SHIFT) / Meta.resolution(zoom));
+        int pixelX = (int)((getMeterX() + Meta.ORIGIN_SHIFT) / Meta.resolution(zoom));
         return Math.abs(Math.round(pixelX));
 	}
 	
@@ -113,7 +108,7 @@ public class Point {
 	 * @return pixelY
 	 */
 	public int getPixelY(int zoom) {
-        pixelY = (int)((meterY - Meta.ORIGIN_SHIFT) / Meta.resolution(zoom));
+        int pixelY = (int)((getMeterY() - Meta.ORIGIN_SHIFT) / Meta.resolution(zoom));
         return Math.abs(Math.round(pixelY));
 	}
 	
@@ -122,7 +117,7 @@ public class Point {
 	 * @return meterX
 	 */
 	public double getMeterX() {
-        meterX = longitude * Meta.ORIGIN_SHIFT / 180.0;
+        double meterX = longitude * Meta.ORIGIN_SHIFT / 180.0;
         return meterX;
 	}
 	
@@ -131,7 +126,7 @@ public class Point {
 	 * @return meterY
 	 */
 	public double getMeterY() {
-        meterY = Math.log(Math.tan((90.0 + latitude) * Math.PI / 360.0)) / (Math.PI / 180.0);
+        double meterY = Math.log(Math.tan((90.0 + latitude) * Math.PI / 360.0)) / (Math.PI / 180.0);
         meterY = meterY * Meta.ORIGIN_SHIFT / 180.0;
         return meterY;
 	}
@@ -143,10 +138,8 @@ public class Point {
 	 * @param zoom
 	 * @return meterX
 	 */
-	public double signMeterX(double meterX, int pixelX, int zoom) {
+	public static double signMeterX(double meterX, int pixelX, int zoom) {
 		int halfSize = (int)((Meta.TILE_SIZE * Math.pow(2,zoom)) / 2);
-		this.pixelX = pixelX;
-		this.meterX = meterX;
 		meterX = Math.abs(meterX);
 		if (pixelX < halfSize) {
 			meterX *= -1;
@@ -161,10 +154,8 @@ public class Point {
 	 * @param zoom
 	 * @return meterY
 	 */
-	public double signMeterY(double meterY, int pixelY, int zoom) {
+	public static double signMeterY(double meterY, int pixelY, int zoom) {
 		int halfSize = (int)((Meta.TILE_SIZE * Math.pow(2,zoom)) / 2);
-		this.pixelY = pixelY;
-		this.meterY = meterY;
 		meterY =  Math.abs(meterY);
 		if (pixelY > halfSize) {
 			meterY *= -1;
