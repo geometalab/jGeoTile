@@ -10,6 +10,7 @@ public class PointTest {
 	double meterY = 5138517.444985110;
 	int pixelX = 34430575;
 	int pixelY = 49899071;
+	int zoom = 19;
 	
 	@Test
 	public void testFromLatitudeLongitude() {
@@ -29,60 +30,54 @@ public class PointTest {
 	
 	@Test
 	public void testFromPixel() {
-		Point point = Point.fromPixel(pixelX, pixelY, 19);
-		System.out.println("testFromPixelLat: " + point.getLatitude());
-		System.out.println("testFromPixelLon: " + point.getLongitude());
+		Point point = Point.fromPixel(pixelX, pixelY, zoom);
+		assertEquals(pixelX, point.getPixelX(zoom));
+		assertEquals(pixelY, point.getPixelY(zoom));
+		assertEquals(latitude, point.getLatitude(), 0.001);
+		assertEquals(longitude, point.getLongitude(), 0.001);
 	}
 	
 	@Test
 	public void testGetLatitude() {
-		assertEquals(41.85, latitude, 0.000001);
+		assertEquals(latitude, 41.85, 0.000001);
 	}
 	
 	@Test
 	public void testGetLongitude() {
-		assertEquals(-87.65, longitude, 0.000001);
+		assertEquals(longitude, -87.65, 0.000001);
 	}
 	
 	@Test
 	public void testGetPixelX() {
-		Point point = new Point(latitude, longitude);
-		assertEquals(34430575, pixelX, 1);
-		System.out.println("testGetPixelX: " + point.getPixelX(19));
+		assertEquals(pixelX, 34430575);
 	}
 	
 	@Test
 	public void testGetPixelY() {
-		Point point = new Point(latitude, longitude);
-		assertEquals(49899071, pixelY, 1);
-		System.out.println("testGetPixelY: " + point.getPixelY(19));
+		assertEquals(pixelY, 49899071);
 	}
 	
 	@Test
 	public void testGetMeterX() {
-		Point point = new Point(latitude, longitude);
-		assertEquals(-9757148.442088600, meterX, 0.00000001);
-		System.out.println("testGetMeterX: " + point.getMeterX());
+		assertEquals(meterX, -9757148.442088600, 0.00000001);
 	}
 	
 	@Test
 	public void testGetMeterY() {
-		Point point = new Point(latitude, longitude);
-		assertEquals(5138517.444985110, meterY, 0.00000001);
-		System.out.println("testGetMeterY: " + point.getMeterY());
+		assertEquals(meterY, 5138517.444985110, 0.00000001);
 	}
 	
 	@Test
 	public void testSignMeterX() {
-		Point.signMeterX(meterX, pixelX, 19);
+		Point.signMeterX(meterX, pixelX, zoom);
 		assertEquals(-9757148.442088600, meterX, 0.00000001);
-		System.out.println("testSignMeterX: " + Point.signMeterX(meterX, pixelX, 19));
+		System.out.println("testSignMeterX: " + Point.signMeterX(meterX, pixelX, zoom));
 	}
 	
 	@Test
 	public void testSignMeterY() {
-		Point.signMeterY(meterY, pixelY, 19);
+		Point.signMeterY(meterY, pixelY, zoom);
 		assertEquals(5138517.444985110, meterY, 0.00000001);
-		System.out.println("testSignMeterY: " + Point.signMeterX(meterX, pixelX, 19));
+		System.out.println("testSignMeterY: " + Point.signMeterX(meterX, pixelX, zoom));
 	}
 }
