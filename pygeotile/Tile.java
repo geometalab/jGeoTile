@@ -97,7 +97,7 @@ public class Tile {
 	 * @param zoom
 	 * @return
 	 */
-	public Tile forPoint(Point point, int zoom) {
+	public static Tile forPoint(Point point, int zoom) {
 		// """Creates a tile for given point"""
 		double latitude = point.getLatitude();
 		double longitude = point.getLongitude();
@@ -127,7 +127,7 @@ public class Tile {
 	 * @param zoom
 	 * @return
 	 */
-	public Tile forMeters(double meterX, double meterY, int zoom) {
+	public static Tile forMeters(double meterX, double meterY, int zoom) {
 		// """Creates a tile from X Y meters in Spherical Mercator EPSG:900913"""
 		Point point = Point.fromMeters(meterX, meterY);
 		int pixelX2 = point.getPixelX(zoom);
@@ -142,7 +142,7 @@ public class Tile {
 	 * @param zoom
 	 * @return
 	 */
-	public Tile forLatitudeLongitude(double latitude, double longitude, int zoom) {
+	public static Tile forLatitudeLongitude(double latitude, double longitude, int zoom) {
 		// """Creates a tile from lat/lon in WGS84"""
 		Point point = Point.fromLatitudeLongitude(latitude, longitude);
 		int pixelX = point.getPixelX(zoom);
