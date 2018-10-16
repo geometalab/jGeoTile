@@ -14,15 +14,17 @@ public class PointTest {
 	@Test
 	public void testFromLatitudeLongitude() {
 		Point point = Point.fromLatitudeLongitude(latitude, longitude);
-		System.out.println("testFromLat: " + point.getLatitude());
-		System.out.println("testFromLon: " + point.getLongitude());
+		assertEquals(latitude, point.getLatitude(), 0.001);
+		assertEquals(longitude, point.getLongitude(), 0.001);
 	}
 	
 	@Test
 	public void testFromMeters() {
 		Point point = Point.fromMeters(meterX, meterY);
-		System.out.println("testFromMetersLat: " + point.getLatitude());
-		System.out.println("testFromMetersLon: " + point.getLongitude());
+		assertEquals(meterX, point.getMeterX(), 0.001);
+		assertEquals(meterY, point.getMeterY(), 0.001);
+		assertEquals(latitude, point.getLatitude(), 0.001);
+		assertEquals(longitude, point.getLongitude(), 0.001);
 	}
 	
 	@Test
