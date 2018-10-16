@@ -124,7 +124,61 @@ class TileTest {
 	}
 
 	@Test
-	void asserTmsX1() {
-		
+	void assertTmsX() {
+		Tile error =  Tile.fromTms(-1, 0, 1);
+		Tile error2 =  Tile.fromTms(4, 0, 1);
+	}
+	
+	@Test
+	void notAssertTmsX() {
+		Tile error =  Tile.fromTms(0, 0, 1);
+		Tile error2 =  Tile.fromTms(3, 0, 1);
+	}
+	
+	@Test
+	void assertTmsY() {
+		Tile error =  Tile.fromTms(0, -1, 1);
+		Tile error2 =  Tile.fromTms(0, 4, 1);
+	}
+	
+	@Test
+	void notAssertTmsY() {
+		Tile error =  Tile.fromTms(0, 0, 1);
+		Tile error2 =  Tile.fromTms(0, 3, 1);
+	}
+	
+	@Test
+	void asserGoogleX() {
+		Tile error = Tile.fromGoogle(-1, 44, 1);
+		Tile error2 = Tile.fromGoogle(3, 44, 1);
+	}
+	
+	@Test
+	void notAssertGoogleX() {
+		Tile error = Tile.fromGoogle(0, 44, 1);
+		Tile error2 = Tile.fromGoogle(2, 44, 1);
+	}
+	
+	void asserGoogleY() {
+		Tile error = Tile.fromGoogle(0, -1, 1);
+		Tile error2 = Tile.fromGoogle(0, 3, 1);
+	}
+	
+	@Test
+	void notAssertGoogleY() {
+		Tile error = Tile.fromGoogle(0, 0, 1);
+		Tile error2 = Tile.fromGoogle(0, 2, 1);
+	}
+	
+	@Test 
+	void assertQuadTree(){
+		Tile error = Tile.fromQuadTree("A202211");
+		Tile error2 = Tile.fromQuadTree("4202211");
+	}
+	
+	@Test
+	void notAssertQuadTree() {
+		Tile error = Tile.fromQuadTree("0202211");
+		Tile error2 = Tile.fromQuadTree("3202211");
 	}
 }

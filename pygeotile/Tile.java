@@ -25,12 +25,12 @@ public class Tile {
 	 * @return
 	 * @throws Exception
 	 */
-	public static Tile fromQuadTree(String quadTree) throws Exception {
+	public static Tile fromQuadTree(String quadTree) {
 		// """Creates a tile from a Microsoft QuadTree"""
 		zoom = quadTree.length();
 		int googleX = 0;
 		int googleY = 0;
-
+		assert quadTree.matches("^[0-3]*$");
 		for (int i = zoom; i > 0; --i) {
 			int mask = 1 << (i - 1);
 			switch (quadTree.toCharArray()[zoom - i]) {
@@ -48,12 +48,12 @@ public class Tile {
 				googleY |= mask;
 
 			default:
-				throw new Exception("QuadTree value can only consists of the digits 0, 1, 2 and 3.");
+				System.out.print("Error");
 			}
 		}
 		tmsX = googleX;
 		tmsY = googleY;
-
+		
 		return new Tile(tmsX, tmsY, zoom);
 	}
 
