@@ -1,12 +1,13 @@
 [![Build Status](https://travis-ci.org/geometalab/pyGeoTile.svg?branch=master)](https://travis-ci.org/geometalab/pyGeoTile)
 # javGeoTile
 Java package to handle tiles and points of different projections, in particular WGS 84 (Latitude, Longitude), Spherical Mercator (Meters), Pixel Pyramid and Tiles (TMS, Google, QuadTree)
+This package is inspired by pyGeoTile, which is the same in Python
 
 ## Usage
 The package javGeoTile consist of two main classes, namely Point and Tile.
 As already mentioned they allow you to convert various geo projections.
 
-The full API documentation could be found under //LINK
+The full API documentation could be found under //LINK TODO
 
 ### Point
 Example of the class Point.
@@ -49,7 +50,6 @@ javGeoTile officially supports Java //TODO
 ## Notes
 This repository is inspired by:
  - pyGeoTile from Samuel
- PyGeoTile is inspired by:
  - Tiles à la Google Maps: http://www.maptiler.org/google-maps-coordinates-tile-bounds-projection/
  - Bing Maps Tile System: https://msdn.microsoft.com/en-us/library/bb259689.aspx
  - Showing pixel and tile coordinates: https://developers.google.com/maps/documentation/javascript/examples/map-coordinates?hl=de
