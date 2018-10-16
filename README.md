@@ -1,7 +1,6 @@
 [![Build Status](https://travis-ci.org/geometalab/pyGeoTile.svg?branch=master)](https://travis-ci.org/geometalab/pyGeoTile)
 # javGeoTile
-Java package to handle tiles and points of different projections, in particular WGS 84 (Latitude, Longitude), Spherical Mercator (Meters), Pixel Pyramid and Tiles (TMS, Google, QuadTree)
-This package is inspired by pyGeoTile, which is the same in Python
+Java package to handle tiles and points of different projections, in particular WGS 84 (Latitude, Longitude), Spherical Mercator (Meters), Pixel Pyramid and Tiles (TMS, Google, QuadTree). This package is inspired by pyGeoTile, which is the same in Python
 
 ## Usage
 The package javGeoTile consist of two main classes, namely Point and Tile.
