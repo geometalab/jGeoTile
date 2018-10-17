@@ -19,11 +19,7 @@ int zoom = 19;
 
 Point point = Point.fromMeters(meterX, meterY);
 
-// Pixels:  (34430592, 49899136)
-System.out.println("Pixels: " + point.pixels(zoom));
-
-// Lat/Lon:  (41.84987190947754, -87.64995574951166)
-System.out.println("Lat/Lon: " + point.latitudeLongitude());
+// TODO
 ```
 
 ### Tile
