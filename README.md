@@ -7,8 +7,6 @@ Java package to handle tiles and points of different projections, in particular 
 The package jGeoTile consist of two main classes, namely Point and Tile.
 As already mentioned they allow you to convert various geo projections.
 
-The full API documentation could be found under //LINK TODO
-
 ### Point
 
 Example of the class Point.
