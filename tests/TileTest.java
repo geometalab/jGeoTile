@@ -59,7 +59,8 @@ class TileTest {
 		double meterx = testPoint.getMeterX();
 		double metery = testPoint.getMeterY();
 		Tile tile = Tile.forMeters(meterx, metery, 19);
-		assertEquals(chicagoTile.getTms(),tile.getTms());
+		assertEquals(chicagoTile.getTms()[0],tile.getTms()[0]);
+		assertEquals(chicagoTile.getTms()[1],tile.getTms()[1]);
 	}
 
 	@Test
