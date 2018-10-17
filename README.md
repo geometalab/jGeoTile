@@ -39,7 +39,7 @@ Example of the class Tile.
 To install jGeoTile, simply:
 
 ```bash
-//TODO
+# TODO
 ```
 
 ## Notes
