@@ -11,42 +11,42 @@ class TileTest {
 	@Test
 	void fromGoogleTest() {
 		Tile googleTile = Tile.fromGoogle(67,44,19);
-		assert googleTile.equals(testTile);
+		assertEquals(testTile,googleTile);
 	}
 	
 	@Test
 	void fromTmsTest() {
 		Tile tmsTile = Tile.fromTms(67, 83, 19);
-		assert tmsTile.equals(testTile);
+		assertEquals(testTile,tmsTile);
 	}
 	
 	@Test
 	void fromTasmaniaTest() {
 		int[] tmsTasmania = {1853,758};
 		Tile tasmania = Tile.fromGoogle(1853, 1289, 19);
-		assert tasmania.getTms().equals(tmsTasmania);
+		assertEquals(tmsTasmania,tasmania.getTms());
 	}
 	
 	@Test
 	void fromQuadTreeTest() throws Exception {
 		Tile quadTreeTile = Tile.fromQuadTree("1202211");
-		assert quadTreeTile.getTms().equals(testTile.getTms());
-		assert quadTreeTile.zoom == testTile.zoom;
+		assertEquals(testTile.getTms(),quadTreeTile.getTms());
+		assertEquals(testTile.getZoom(),quadTreeTile.getZoom());
 	}
 	
 	@Test
 	void crossCheckTest() throws Exception {
 		Tile crossCheckTile = Tile.fromQuadTree("1202211");
-		assert crossCheckTile.getTms().equals(testTile.getTms());
-		assert crossCheckTile.zoom == testTile.zoom;
-		assert crossCheckTile.getGoogle().equals(testTile.getGoogle());
-		assert crossCheckTile.quadTree().equals(testTile.quadTree());
+		assertEquals(testTile.getTms(),crossCheckTile.getTms());
+		assertEquals(testTile.getZoom(),crossCheckTile.getZoom());
+		assertEquals(testTile.getGoogle(),crossCheckTile.getGoogle());
+		assertEquals(testTile.quadTree(),crossCheckTile.quadTree());
 	}
 	
 	@Test
 	void forPixelsTest() {
 		Tile pixelsTile = Tile.forPixels(34430575, 49899071, 19);
-		assert pixelsTile.getTms().equals(testTile.getTms());
+		assertEquals(testTile.getTms(),pixelsTile.getTms());
 	}
 
 	@Test
@@ -56,7 +56,7 @@ class TileTest {
 		double meterx = testPoint.getMeterX();
 		double metery = testPoint.getMeterY();
 		Tile tile = Tile.forMeters(meterx, metery, 19);
-		assert tile.getTms().equals(chicagoTile.getTms());
+		assertEquals(chicagoTile.getTms(),tile.getTms());
 	}
 
 	@Test
@@ -65,8 +65,8 @@ class TileTest {
 		Point pointMin = Point.fromPixel(34430464, 49899264,19);
 		Point pointMax = Point.fromPixel(34430720, 49899008,19);
 
-		assert boundsTile.bounds()[0].equals(pointMin);
-		assert boundsTile.bounds()[1].equals(pointMax);
+		assertEquals(pointMin,boundsTile.bounds()[0]);
+		assertEquals(pointMax,boundsTile.bounds()[1]);
 	}
 	
 	@Test
@@ -76,8 +76,8 @@ class TileTest {
 		Point pointMax = tile.bounds()[1];
 		Point expectedMin= new Point(0.0, -180.0);
 		Point expectedMax = new Point(85.05, 0.0);
-		assert pointMin.equals(expectedMin);
-		assert pointMax.equals(expectedMax);
+		assertEquals(expectedMin,pointMin);
+		assertEquals(expectedMax,pointMax);
 	}
 	
 	@Test
@@ -87,8 +87,8 @@ class TileTest {
 		Point pointMax = tile.bounds()[1];
 		Point expectedMin= new Point(0.0, 0.0);
 		Point expectedMax = new Point(85.05, 180.0);
-		assert pointMin.equals(expectedMin);
-		assert pointMax.equals(expectedMax);
+		assertEquals(expectedMin,pointMin);
+		assertEquals(expectedMax,pointMax);
 	}
 	
 	@Test
@@ -98,8 +98,8 @@ class TileTest {
 		Point pointMax = tile.bounds()[1];
 		Point expectedMin= new Point(-85.05, -180.0);
 		Point expectedMax = new Point(0.0, 0.0);
-		assert pointMin.equals(expectedMin);
-		assert pointMax.equals(expectedMax);
+		assertEquals(expectedMin,pointMin);
+		assertEquals(expectedMax,pointMax);
 	}
 	
 	@Test
@@ -109,22 +109,22 @@ class TileTest {
 		Point pointMax = tile.bounds()[1];
 		Point expectedMin= new Point(-85.05, 0.0);
 		Point expectedMax = new Point(0.0, 180.0);
-		assert pointMin.equals(expectedMin);
-		assert pointMax.equals(expectedMax);
+		assertEquals(expectedMin,pointMin);
+		assertEquals(expectedMax,pointMax);
 	}
 
 	@Test
 	void latitudeLongitudeTest() {
 		Tile llTile = Tile.forLatitudeLongitude(41.85, -87.65, 19);
-		assert llTile.getTms().equals(testTile.getTms());
+		assertEquals(testTile.getTms(),llTile.getTms());
 	}
 
 	@Test
 	void pointTest() {
 		Point point = Point.fromLatitudeLongitude(41.85, -87.65);
 		Tile pointTile = Tile.forPoint(point, 19);
-		assert pointTile.getTms().equals(testTile.getTms());
-		assert pointTile.zoom == testTile.zoom;
+		assertEquals(testTile.getTms(),pointTile.getTms());
+		assertEquals(testTile.getZoom(),pointTile.getZoom());
 	}
 
 	@Test
