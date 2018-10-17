@@ -156,8 +156,8 @@ class TileTest {
 	
 	@Test
 	void notAssertGoogleX() {
-		assertAll(()-> Tile.fromGoogle(0, 44, 5));
-		assertAll(()-> Tile.fromGoogle(2, 44, 5));
+		assertAll(()-> Tile.fromGoogle(0, 44, 10));
+		assertAll(()-> Tile.fromGoogle(2, 44, 10));
 	}
 	
 	void asserGoogleY() {

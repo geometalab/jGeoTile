@@ -13,7 +13,7 @@ public class Tile {
 	 * @param latitude
 	 * @param zoom
 	 */
-	private Tile(double longitude, double latitude, int zoom) {
+	private Tile(double latitude, double longitude, int zoom) {
 		longitude = this.tmsX;
 		latitude = this.tmsY;
 		zoom = this.zoom;
@@ -48,12 +48,12 @@ public class Tile {
 				googleY |= mask;
 
 			default:
-				System.out.print("Error");
+				System.out.println("Error");
 			}
 		}
 		tmsX = googleX;
 		tmsY = googleY;
-		
+
 		return new Tile(tmsX, tmsY, zoom);
 	}
 
@@ -64,11 +64,11 @@ public class Tile {
 	 * @param tmsY
 	 * @return
 	 */
-	public static Tile fromTms(int tmsX, int tmsY,int zoom) {
+	public static Tile fromTms(int tmsX, int tmsY, int zoom) {
 		// """Creates a tile from Tile Map Service (TMS) X Y and zoom"""
-		double max_tile = Math.pow(2 , zoom) - 1;
-		assert 0 <= tmsX && tmsX <= max_tile:"TMS X needs to be a value between 0 and (2^zoom) -1.";
-		assert 0 <= tmsY && tmsY <= max_tile:"TMS Y needs to be a value between 0 and (2^zoom) -1.";
+		double max_tile = Math.pow(2, zoom) - 1;
+		assert 0 <= tmsX && tmsX <= max_tile : "TMS X needs to be a value between 0 and (2^zoom) -1.";
+		assert 0 <= tmsY && tmsY <= max_tile : "TMS Y needs to be a value between 0 and (2^zoom) -1.";
 
 		//
 		return new Tile(tmsX, tmsY, zoom);
@@ -83,11 +83,11 @@ public class Tile {
 	 */
 	public static Tile fromGoogle(int googleX, int googleY, int zoom) {
 		// """Creates a tile from Google format X Y and zoom"""
-		double max_tile = Math.pow(2 , zoom) - 1;
-		assert 0 <= googleX && googleX <= max_tile:"Google X needs to be a value between 0 and (2^zoom) -1.";
-		assert 0 <= googleY && googleY <= max_tile:"Google Y needs to be a value between 0 and (2^zoom) -1.";
+		double max_tile = Math.pow(2, zoom) - 1;
+		assert 0 <= googleX && googleX <= max_tile : "Google X needs to be a value between 0 and (2^zoom) -1.";
+		assert 0 <= googleY && googleY <= max_tile : "Google Y needs to be a value between 0 and (2^zoom) -1.";
 		tmsX = googleX;
-		tmsY = (int) (Math.pow(2 , zoom - 1) - googleY);
+		tmsY = (int) (Math.pow(2, zoom - 1) - googleY);
 		return new Tile(tmsX, tmsY, zoom);
 	}
 
@@ -101,7 +101,7 @@ public class Tile {
 		// """Creates a tile for given point"""
 		double latitude = point.getLatitude();
 		double longitude = point.getLongitude();
-		return new Tile(longitude, latitude, zoom);
+		return forLatitudeLongitude(longitude, latitude, zoom);
 	}
 
 	/**
@@ -115,7 +115,7 @@ public class Tile {
 		// """Creates a tile from pixels X Y Z (zoom) in pyramid"""
 		tmsX = (int) (Math.ceil(pixelX / tileSize) - 1);
 		tmsY = (int) (Math.ceil(pixelY / tileSize) - 1);
-		tmsY = (int) (Math.pow(2, zoom-1)-tmsY);
+		tmsY = (int) (Math.pow(2, zoom - 1) - tmsY);
 
 		return new Tile(tmsX, tmsY, zoom);
 	}
@@ -190,7 +190,7 @@ public class Tile {
 	 */
 	public static int[] getGoogle() {
 		// """Gets the tile in the Google format, converted from TMS"""
-		int[] google = { tmsX, (int) (Math.pow(2 , zoom - 1) - tmsY) };
+		int[] google = { tmsX, (int) (Math.pow(2, zoom - 1) - tmsY) };
 		return google;
 	}
 
