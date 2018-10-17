@@ -427,6 +427,11 @@ public class PointTest {
 				()->{
 					Point.fromLatitudeLongitude(0.0, -180.1);
 				}, "Longitude needs to be a value between -180.0 and 180.0.");
+		
+		assertThrows(AssertionError.class,
+				()->{
+					Point.fromLatitudeLongitude(0.0, 180.1);
+				}, "Longitude needs to be a value between -180.0 and 180.0.");
 	}
 	
 	@Test
@@ -436,7 +441,15 @@ public class PointTest {
 	
 	@Test
 	public void testAssertLatitude() {
+		assertThrows(AssertionError.class,
+				()->{
+					Point.fromLatitudeLongitude(-90.1, 0.0);
+				}, "Latitude needs to be a value between -90.0 and 90.0.");
 		
+		assertThrows(AssertionError.class,
+				()->{
+					Point.fromLatitudeLongitude(90.1, 0.0);
+				}, "Latitude needs to be a value between -90.0 and 90.0.");
 	}
 	
 	@Test
