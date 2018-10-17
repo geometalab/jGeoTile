@@ -1,22 +1,22 @@
 import java.lang.Math;
 
 public class Tile {
-	static int zoom;
-	static int tmsX;
-	static int tmsY;
+	private int zoom;
+	private int tmsX;
+	private int tmsY;
 	static float tileSize = Meta.TILE_SIZE;
 
 	/**
 	 * Constructor for Tile
 	 * 
-	 * @param longitude
-	 * @param latitude
+	 * @param tmsY
+	 * @param tmsX
 	 * @param zoom
 	 */
-	private Tile(double latitude, double longitude, int zoom) {
-		longitude = this.tmsX;
-		latitude = this.tmsY;
-		zoom = this.zoom;
+	private Tile(int tmsX, int tmsY, int zoom) {
+		this.tmsY = tmsY;
+		this.tmsX = tmsX;
+		this.setZoom(zoom);
 	}
 
 	/**
@@ -27,7 +27,7 @@ public class Tile {
 	 */
 	public static Tile fromQuadTree(String quadTree) {
 		// """Creates a tile from a Microsoft QuadTree"""
-		zoom = quadTree.length();
+		int zoom = quadTree.length();
 		int googleX = 0;
 		int googleY = 0;
 		assert quadTree.matches("^[0-3]*$"):"QuadTree must only contain numbers from 0-3";
@@ -52,8 +52,8 @@ public class Tile {
 				break;
 			}
 		}
-		tmsX = googleX;
-		tmsY = googleY;
+		int tmsX = googleX;
+		int tmsY = googleY;
 
 		return new Tile(tmsX, tmsY, zoom);
 	}
@@ -87,8 +87,8 @@ public class Tile {
 		double max_tile = Math.pow(2, zoom) - 1;
 		assert 0 <= googleX && googleX <= max_tile : "Google X needs to be a value between 0 and (2^zoom) -1.";
 		assert 0 <= googleY && googleY <= max_tile : "Google Y needs to be a value between 0 and (2^zoom) -1.";
-		tmsX = googleX;
-		tmsY = (int) (Math.pow(2, zoom - 1) - googleY);
+		int tmsX = googleX;
+		int tmsY = (int) (Math.pow(2, zoom - 1) - googleY);
 		return new Tile(tmsX, tmsY, zoom);
 	}
 
@@ -114,8 +114,8 @@ public class Tile {
 	 */
 	public static Tile forPixels(int pixelX, int pixelY, int zoom) {
 		// """Creates a tile from pixels X Y Z (zoom) in pyramid"""
-		tmsX = (int) (Math.ceil(pixelX / tileSize) - 1);
-		tmsY = (int) (Math.ceil(pixelY / tileSize) - 1);
+		int tmsX = (int) (Math.ceil(pixelX / tileSize) - 1);
+		int tmsY = (int) (Math.ceil(pixelY / tileSize) - 1);
 		tmsY = (int) (Math.pow(2, zoom - 1) - tmsY);
 
 		return new Tile(tmsX, tmsY, zoom);
@@ -165,18 +165,17 @@ public class Tile {
 	 * 
 	 * @return Returns the QuadTree String converted from TMS
 	 */
-	public static String quadTree() {
+	public String quadTree() {
 		// """Gets the tile in the Microsoft QuadTree format, converted from TMS"""
 		StringBuilder quadKey = new StringBuilder();
-		for (int i = zoom; i > 0; --i) {
+		for (int i = getZoom(); i > 0; --i) {
 			char digit = '0';
 			int mask = 1 << (i - 1);
 			if ((tmsX & mask) != 0) {
 				digit++;
 			}
 			if ((tmsY & mask) != 0) {
-				digit++;
-				digit++;
+				digit += 2;
 			}
 			quadKey.append(digit);
 		}
@@ -189,9 +188,9 @@ public class Tile {
 	 * @return An int Array containing the X and Y values for the Google format,
 	 *         converted from TMS
 	 */
-	public static int[] getGoogle() {
+	public int[] getGoogle() {
 		// """Gets the tile in the Google format, converted from TMS"""
-		int[] google = { tmsX, (int) (Math.pow(2, zoom - 1) - tmsY) };
+		int[] google = { tmsX, (int) (Math.pow(2, getZoom() - 1) - tmsY) };
 		return google;
 	}
 
@@ -211,11 +210,19 @@ public class Tile {
 		int pixelXEast = (int) ((googleX + 1) * tileSize);
 		int pixelYSouth = (int) ((googleY + 1) * tileSize);
 
-		Point pointMin = Point.fromPixel(pixelXWest, pixelYSouth, zoom);
-		Point pointMax = Point.fromPixel(pixelXEast, pixelYNorth, zoom);
+		Point pointMin = Point.fromPixel(pixelXWest, pixelYSouth, getZoom());
+		Point pointMax = Point.fromPixel(pixelXEast, pixelYNorth, getZoom());
 		Point[] bounds = { pointMin, pointMax };
 		return bounds;
 
+	}
+
+	public int getZoom() {
+		return zoom;
+	}
+
+	public void setZoom(int zoom) {
+		this.zoom = zoom;
 	}
 	
 }
