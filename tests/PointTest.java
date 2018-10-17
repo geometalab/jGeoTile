@@ -1,4 +1,5 @@
 import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import org.junit.jupiter.api.Test;
 
@@ -422,7 +423,10 @@ public class PointTest {
 	
 	@Test
 	public void testAssertLongitude() {
-		
+		assertThrows(AssertionError.class,
+				()->{
+					Point.fromLatitudeLongitude(0.0, -180.1);
+				}, "Longitude needs to be a value between -180.0 and 180.0.");
 	}
 	
 	@Test
