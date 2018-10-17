@@ -11,13 +11,15 @@ class TileTest {
 	@Test
 	void fromGoogleTest() {
 		Tile googleTile = Tile.fromGoogle(67,44,19);
-		assertEquals(testTile,googleTile);
+		assertEquals(testTile.getTms()[0],googleTile.getTms()[0]);
+		assertEquals(testTile.getTms()[1],googleTile.getTms()[1]);
 	}
 	
 	@Test
 	void fromTmsTest() {
 		Tile tmsTile = Tile.fromTms(67, 83, 19);
-		assertEquals(testTile,tmsTile);
+		assertEquals(testTile.getTms()[0],tmsTile.getTms()[0]);
+		assertEquals(testTile.getTms()[1],tmsTile.getTms()[1]);
 	}
 	
 	@Test
@@ -46,7 +48,8 @@ class TileTest {
 	@Test
 	void forPixelsTest() {
 		Tile pixelsTile = Tile.forPixels(34430575, 49899071, 19);
-		assertEquals(testTile.getTms(),pixelsTile.getTms());
+		assertEquals(testTile.getTms()[0],pixelsTile.getTms()[0]);
+		assertEquals(testTile.getTms()[1],pixelsTile.getTms()[1]);
 	}
 
 	@Test
@@ -76,8 +79,10 @@ class TileTest {
 		Point pointMax = tile.bounds()[1];
 		Point expectedMin= new Point(0.0, -180.0);
 		Point expectedMax = new Point(85.05, 0.0);
-		assertEquals(expectedMin,pointMin);
-		assertEquals(expectedMax,pointMax);
+		assertEquals(expectedMin.getLatitude(),pointMin.getLatitude());
+		assertEquals(expectedMin.getLongitude(),pointMin.getLongitude());
+		assertEquals(expectedMax.getLatitude(),pointMax.getLatitude());
+		assertEquals(expectedMax.getLongitude(),pointMax.getLongitude());
 	}
 	
 	@Test
@@ -87,8 +92,10 @@ class TileTest {
 		Point pointMax = tile.bounds()[1];
 		Point expectedMin= new Point(0.0, 0.0);
 		Point expectedMax = new Point(85.05, 180.0);
-		assertEquals(expectedMin,pointMin);
-		assertEquals(expectedMax,pointMax);
+		assertEquals(expectedMin.getLatitude(),pointMin.getLatitude());
+		assertEquals(expectedMin.getLongitude(),pointMin.getLongitude());
+		assertEquals(expectedMax.getLatitude(),pointMax.getLatitude());
+		assertEquals(expectedMax.getLongitude(),pointMax.getLongitude());
 	}
 	
 	@Test
@@ -98,8 +105,10 @@ class TileTest {
 		Point pointMax = tile.bounds()[1];
 		Point expectedMin= new Point(-85.05, -180.0);
 		Point expectedMax = new Point(0.0, 0.0);
-		assertEquals(expectedMin,pointMin);
-		assertEquals(expectedMax,pointMax);
+		assertEquals(expectedMin.getLatitude(),pointMin.getLatitude());
+		assertEquals(expectedMin.getLongitude(),pointMin.getLongitude());
+		assertEquals(expectedMax.getLatitude(),pointMax.getLatitude());
+		assertEquals(expectedMax.getLongitude(),pointMax.getLongitude());
 	}
 	
 	@Test
@@ -109,14 +118,17 @@ class TileTest {
 		Point pointMax = tile.bounds()[1];
 		Point expectedMin= new Point(-85.05, 0.0);
 		Point expectedMax = new Point(0.0, 180.0);
-		assertEquals(expectedMin,pointMin);
-		assertEquals(expectedMax,pointMax);
+		assertEquals(expectedMin.getLatitude(),pointMin.getLatitude());
+		assertEquals(expectedMin.getLongitude(),pointMin.getLongitude());
+		assertEquals(expectedMax.getLatitude(),pointMax.getLatitude());
+		assertEquals(expectedMax.getLongitude(),pointMax.getLongitude());
 	}
 
 	@Test
 	void latitudeLongitudeTest() {
 		Tile llTile = Tile.forLatitudeLongitude(41.85, -87.65, 19);
-		assertEquals(testTile.getTms(),llTile.getTms());
+		assertEquals(testTile.getTms()[0],llTile.getTms()[0]);
+		assertEquals(testTile.getTms()[1],llTile.getTms()[1]);
 	}
 
 	@Test
