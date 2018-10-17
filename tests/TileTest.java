@@ -51,8 +51,12 @@ class TileTest {
 
 	@Test
 	void forMetersTest() {
-		Tile metersTile = Tile.forMeters(-9757148.442088600, 5138517.444985110, 19);
-		assert metersTile.getTms().equals(testTile.getTms());
+		Tile chicagoTile = Tile.forLatitudeLongitude(41.85, -87.64999999999998, 19);
+		Point testPoint = Point.fromPixel(34430575, 49899071, 19);
+		double meterx = testPoint.getMeterX();
+		double metery = testPoint.getMeterY();
+		Tile tile = Tile.forMeters(meterx, metery, 19);
+		assert tile.getTms().equals(chicagoTile.getTms());
 	}
 
 	@Test

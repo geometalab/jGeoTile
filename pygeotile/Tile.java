@@ -157,7 +157,7 @@ public class Tile {
 	 */
 	public int[] getTms() {
 		// gives out tmsX and tmsY in an int array
-		int[] tms = { tmsX, tmsY };
+		int[] tms = {tmsX, tmsY };
 		return tms;
 	}
 
