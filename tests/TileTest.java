@@ -61,9 +61,8 @@ class TileTest {
 		Point pointMin = Point.fromPixel(34430464, 49899264,19);
 		Point pointMax = Point.fromPixel(34430720, 49899008,19);
 
-		Point[] bounds = { pointMin, pointMax };
-
-		assert boundsTile.bounds().equals(bounds);
+		assert boundsTile.bounds()[0].equals(pointMin);
+		assert boundsTile.bounds()[1].equals(pointMax);
 	}
 	
 	@Test

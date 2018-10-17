@@ -30,7 +30,7 @@ public class Tile {
 		zoom = quadTree.length();
 		int googleX = 0;
 		int googleY = 0;
-		assert quadTree.matches("^[0-3]*$");
+		assert quadTree.matches("^[0-3]*$"):"QuadTree must only contain numbers from 0-3";
 		for (int i = zoom; i > 0; --i) {
 			int mask = 1 << (i - 1);
 			switch (quadTree.toCharArray()[zoom - i]) {
@@ -49,6 +49,7 @@ public class Tile {
 
 			default:
 				System.out.println("Error");
+				break;
 			}
 		}
 		tmsX = googleX;
@@ -200,7 +201,7 @@ public class Tile {
 	 *         the Tile.
 	 * 
 	 */
-	public static Point[] bounds() {
+	public Point[] bounds() {
 		// """Gets the bounds of a tile represented as the most west and south point and
 		// the most east and north point"""
 		int googleX = getGoogle()[0];
@@ -216,4 +217,5 @@ public class Tile {
 		return bounds;
 
 	}
+	
 }
