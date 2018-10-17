@@ -1,4 +1,5 @@
 import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import org.junit.jupiter.api.Test;
 
@@ -57,8 +58,8 @@ class TileTest {
 	@Test
 	void pixelBoundsTest() throws Exception {
 		Tile boundsTile = Tile.fromQuadTree("1202211");
-		Point pointMin = Point.fromLatitudeLongitude(34430464, 49899264);
-		Point pointMax = Point.fromLatitudeLongitude(34430720, 49899008);
+		Point pointMin = Point.fromPixel(34430464, 49899264,19);
+		Point pointMax = Point.fromPixel(34430720, 49899008,19);
 
 		Point[] bounds = { pointMin, pointMax };
 
@@ -125,60 +126,61 @@ class TileTest {
 
 	@Test
 	void assertTmsX() {
-		Tile error =  Tile.fromTms(-1, 0, 1);
-		Tile error2 =  Tile.fromTms(4, 0, 1);
+		assertThrows(AssertionError.class,() -> Tile.fromTms(-1, 0, 1));
+		assertThrows(AssertionError.class,() -> Tile.fromTms(4, 0, 1));
 	}
 	
 	@Test
 	void notAssertTmsX() {
-		Tile error =  Tile.fromTms(0, 0, 1);
-		Tile error2 =  Tile.fromTms(3, 0, 1);
+		assertAll(()-> Tile.fromTms(0, 0, 1));
+		assertAll(()-> Tile.fromTms(3, 0, 1));
 	}
 	
 	@Test
 	void assertTmsY() {
-		Tile error =  Tile.fromTms(0, -1, 1);
-		Tile error2 =  Tile.fromTms(0, 4, 1);
+		assertThrows(AssertionError.class,() -> Tile.fromTms(0, -1, 1));
+		assertThrows(AssertionError.class,() -> Tile.fromTms(0, 4, 1));
 	}
 	
 	@Test
 	void notAssertTmsY() {
-		Tile error =  Tile.fromTms(0, 0, 1);
-		Tile error2 =  Tile.fromTms(0, 3, 1);
+		assertAll(()-> Tile.fromTms(0, 0, 1));
+		assertAll(()-> Tile.fromTms(0, 3, 1));
 	}
 	
 	@Test
 	void asserGoogleX() {
-		Tile error = Tile.fromGoogle(-1, 44, 1);
-		Tile error2 = Tile.fromGoogle(3, 44, 1);
+		assertThrows(AssertionError.class,() -> Tile.fromGoogle(-1, 44, 1));
+		assertThrows(AssertionError.class,() -> Tile.fromGoogle(3, 44, 1));
 	}
 	
 	@Test
 	void notAssertGoogleX() {
-		Tile error = Tile.fromGoogle(0, 44, 1);
-		Tile error2 = Tile.fromGoogle(2, 44, 1);
+		assertAll(()-> Tile.fromGoogle(0, 44, 1));
+		assertAll(()-> Tile.fromGoogle(2, 44, 1));
 	}
 	
 	void asserGoogleY() {
-		Tile error = Tile.fromGoogle(0, -1, 1);
-		Tile error2 = Tile.fromGoogle(0, 3, 1);
+		assertThrows(AssertionError.class,() -> Tile.fromGoogle(0, -1, 1));
+		assertThrows(AssertionError.class,() -> Tile.fromGoogle(0, 3, 1));
 	}
 	
 	@Test
 	void notAssertGoogleY() {
-		Tile error = Tile.fromGoogle(0, 0, 1);
-		Tile error2 = Tile.fromGoogle(0, 2, 1);
+		assertAll(()-> Tile.fromGoogle(0, 0, 1));
+		assertAll(()-> Tile.fromGoogle(0, 2, 1));
 	}
 	
-	@Test 
+	@Test
 	void assertQuadTree(){
-		Tile error = Tile.fromQuadTree("A202211");
-		Tile error2 = Tile.fromQuadTree("4202211");
+		
+		assertThrows(AssertionError.class,() -> Tile.fromQuadTree("A202211"));
+		assertThrows(AssertionError.class,() -> Tile.fromQuadTree("4202211"));
 	}
 	
 	@Test
 	void notAssertQuadTree() {
-		Tile error = Tile.fromQuadTree("0202211");
-		Tile error2 = Tile.fromQuadTree("3202211");
+		assertAll(()-> Tile.fromQuadTree("0202211"));
+		assertAll(()-> Tile.fromQuadTree("3202211"));
 	}
 }
