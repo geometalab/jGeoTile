@@ -436,7 +436,10 @@ public class PointTest {
 	
 	@Test
 	public void testNoAssertLongitude() {
-		
+//		assertThrows(
+//				()->{
+//					Point.fromLatitudeLongitude(10.0, 180.0);
+//				}, "No assertion raise :)");
 	}
 	
 	@Test
@@ -454,46 +457,78 @@ public class PointTest {
 	
 	@Test
 	public void testNoAssertLatitude() {
-		
+//		 TODO
 	}
 	
 	@Test
 	public void testAssertPixelX() {
+		assertThrows(AssertionError.class,
+				()->{
+					Point.fromPixel((int)((Math.pow(2,zoom)) * 256 + 1), 1, zoom);
+				}, "Point X needs to be a value between 0 and (2^zoom) * 256.");
 		
+		assertThrows(AssertionError.class,
+				()->{
+					Point.fromPixel(-10, 1, zoom);
+				}, "Point X needs to be a value between 0 and (2^zoom) * 256.");
 	}
 	
 	@Test
 	public void testNoAssertPixelX() {
-		
+//		 TODO
 	}
 	
 	@Test
 	public void testAssertPixelY() {
+		assertThrows(AssertionError.class,
+				()->{
+					Point.fromPixel(1, (int)((Math.pow(2,zoom)) * 256 + 1), zoom);
+				}, "Point Y needs to be a value between 0 and (2^zoom) * 256.");
 		
+		assertThrows(AssertionError.class,
+				()->{
+					Point.fromPixel(1, -10, zoom);
+				}, "Point Y needs to be a value between 0 and (2^zoom) * 256.");
 	}
 	
 	@Test
 	public void testNoAssertPixelY() {
-		
+//		 TODO
 	}
 	
 	@Test
 	public void testAssertMeterX() {
+		assertThrows(AssertionError.class,
+				()->{
+					Point.fromMeters(-200 - Meta.ORIGIN_SHIFT, 0.0);
+				}, "Meter X needs to be a value between " + -Meta.ORIGIN_SHIFT + " and " + Meta.ORIGIN_SHIFT + ".");
 		
+		assertThrows(AssertionError.class,
+				()->{
+					Point.fromMeters(6378137000.0, 0.0);
+				}, "Meter X needs to be a value between " + -Meta.ORIGIN_SHIFT + " and " + Meta.ORIGIN_SHIFT + ".");
 	}
 	
 	@Test
 	public void testNoAssertMeterX() {
-		
+//		 TODO
 	}
 	
 	@Test
 	public void testAssertMeterY() {
+		assertThrows(AssertionError.class,
+				()->{
+					Point.fromMeters(0.0, -0.1 - Meta.ORIGIN_SHIFT);
+				}, "Meter Y needs to be a value between " + -Meta.ORIGIN_SHIFT + " and " + Meta.ORIGIN_SHIFT + ".");
 		
+		assertThrows(AssertionError.class,
+				()->{
+					Point.fromMeters(0.0, Meta.ORIGIN_SHIFT + 0.1);
+				}, "Meter Y needs to be a value between " + -Meta.ORIGIN_SHIFT + " and " + Meta.ORIGIN_SHIFT + ".");
 	}
 	
 	@Test
 	public void testNoAssertMeterY() {
-		
+//		 TODO
 	}
 }
