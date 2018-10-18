@@ -436,10 +436,7 @@ public class PointTest {
 	
 	@Test
 	public void testNoAssertLongitude() {
-//		assertThrows(
-//				()->{
-//					Point.fromLatitudeLongitude(10.0, 180.0);
-//				}, "No assertion raise :)");
+//	TODO
 	}
 	
 	@Test
@@ -511,7 +508,11 @@ public class PointTest {
 	
 	@Test
 	public void testNoAssertMeterX() {
-//		 TODO
+		Point.fromMeters(Meta.ORIGIN_SHIFT, 10.0);
+		Point.fromMeters(-Meta.ORIGIN_SHIFT, 10.0);
+		Point.fromMeters(Meta.ORIGIN_SHIFT - 0.1, 10.0);
+		Point.fromMeters(-Meta.ORIGIN_SHIFT + 0.1, 10.0);
+		assert(true);
 	}
 	
 	@Test
@@ -529,6 +530,10 @@ public class PointTest {
 	
 	@Test
 	public void testNoAssertMeterY() {
-//		 TODO
+		Point.fromMeters(10.0, Meta.ORIGIN_SHIFT);
+		Point.fromMeters(10.0, -Meta.ORIGIN_SHIFT);
+		Point.fromMeters(10.0, Meta.ORIGIN_SHIFT - 0.1);
+		Point.fromMeters(10.0, -Meta.ORIGIN_SHIFT + 0.1);
+		assert(true);
 	}
 }
