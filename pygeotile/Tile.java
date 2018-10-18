@@ -30,6 +30,7 @@ public class Tile {
 		int zoom = quadTree.length();
 		int googleX = 0;
 		int googleY = 0;
+		int offset = (int) (Math.pow(2, zoom))-1;
 		assert quadTree.matches("^[0-3]*$"):"QuadTree must only contain numbers from 0-3";
 		for (int i = zoom; i > 0; --i) {
 			int mask = 1 << (i - 1);
@@ -53,8 +54,7 @@ public class Tile {
 			}
 		}
 		int tmsX = googleX;
-		int tmsY = googleY;
-
+		int tmsY = offset - googleY;
 		return new Tile(tmsX, tmsY, zoom);
 	}
 
@@ -102,7 +102,7 @@ public class Tile {
 		// """Creates a tile for given point"""
 		double latitude = point.getLatitude();
 		double longitude = point.getLongitude();
-		return forLatitudeLongitude(longitude, latitude, zoom);
+		return forLatitudeLongitude(latitude, longitude, zoom);
 	}
 
 	/**
@@ -131,9 +131,9 @@ public class Tile {
 	public static Tile forMeters(double meterX, double meterY, int zoom) {
 		// """Creates a tile from X Y meters in Spherical Mercator EPSG:900913"""
 		Point point = Point.fromMeters(meterX, meterY);
-		int pixelX2 = point.getPixelX(zoom);
-		int pixelY2 = point.getPixelY(zoom);
-		return forPixels(pixelX2, pixelY2, zoom);
+		int pixelX = point.getPixelX(zoom);
+		int pixelY = point.getPixelY(zoom);
+		return forPixels(pixelX, pixelY, zoom);
 	}
 
 	/**

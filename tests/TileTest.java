@@ -5,9 +5,13 @@ import org.junit.jupiter.api.Test;
 
 class TileTest {
 	
-	private Tile testTile = Tile.forPixels(34430575, 49899071, 19);
-	
-
+	private Tile testTileChicago = Tile.forPixels(34430575, 49899071, 19);
+	private Tile testTile = Tile.fromTms(67, 83, 7);
+	//private Tile testTile2 = Tile.fromQuadTree("1202211");
+	//TMS (67,83)
+	//google (67,44)
+	// quadtree "1202211"
+	//zoom 7
 	@Test
 	void fromGoogleTest() {
 		Tile googleTile = Tile.fromGoogle(67,44,19);
@@ -25,7 +29,7 @@ class TileTest {
 	@Test
 	void fromTasmaniaTest() {
 		int[] tmsTasmania = {1853,758};
-		Tile tasmania = Tile.fromGoogle(1853, 1289, 19);
+		Tile tasmania = Tile.fromGoogle(1853, 1289, 7);
 		assertEquals(tmsTasmania,tasmania.getTms());
 	}
 	
@@ -48,96 +52,96 @@ class TileTest {
 	@Test
 	void forPixelsTest() {
 		Tile pixelsTile = Tile.forPixels(34430575, 49899071, 19);
-		assertEquals(testTile.getTms()[0],pixelsTile.getTms()[0]);
-		assertEquals(testTile.getTms()[1],pixelsTile.getTms()[1]);
+		assertEquals(testTileChicago.getTms()[0],pixelsTile.getTms()[0]);
+		assertEquals(testTileChicago.getTms()[1],pixelsTile.getTms()[1]);
 	}
 
 	@Test
 	void forMetersTest() {
-		Tile chicagoTile = Tile.forLatitudeLongitude(41.85, -87.64999999999998, 19);
 		Point testPoint = Point.fromPixel(34430575, 49899071, 19);
 		double meterx = testPoint.getMeterX();
 		double metery = testPoint.getMeterY();
-		Tile tile = Tile.forMeters(meterx, metery, 19);
-		assertEquals(chicagoTile.getTms()[0],tile.getTms()[0]);
-		assertEquals(chicagoTile.getTms()[1],tile.getTms()[1]);
+		Tile meterTile = Tile.forMeters(meterx, metery, 19);
+		assertEquals(testTileChicago.getTms()[0],meterTile.getTms()[0]);
+		assertEquals(testTileChicago.getTms()[1],meterTile.getTms()[1]);
 	}
 
 	@Test
 	void pixelBoundsTest() throws Exception {
 		Tile boundsTile = Tile.fromQuadTree("1202211");
-		Point pointMin = Point.fromPixel(34430464, 49899264,19);
-		Point pointMax = Point.fromPixel(34430720, 49899008,19);
+		Point pointMin = Point.fromPixel(34430464, 49899264,7);
+		Point pointMax = Point.fromPixel(34430720, 49899008,7);
 
 		assertEquals(pointMin,boundsTile.bounds()[0]);
 		assertEquals(pointMax,boundsTile.bounds()[1]);
 	}
-	
+	private double epsilon = 0.1;
 	@Test
 	void testTileBounds1() {
-		Tile tile =  Tile.fromTms(0, 1, 3);
+		Tile tile =  Tile.fromTms(0, 1, 1);
 		Point pointMin = tile.bounds()[0];
 		Point pointMax = tile.bounds()[1];
 		Point expectedMin= new Point(0.0, -180.0);
 		Point expectedMax = new Point(85.05, 0.0);
-		assertEquals(expectedMin.getLatitude(),pointMin.getLatitude());
-		assertEquals(expectedMin.getLongitude(),pointMin.getLongitude());
-		assertEquals(expectedMax.getLatitude(),pointMax.getLatitude());
-		assertEquals(expectedMax.getLongitude(),pointMax.getLongitude());
+		assertEquals(expectedMin.getLatitude(),pointMin.getLatitude(),epsilon);
+		assertEquals(expectedMin.getLongitude(),pointMin.getLongitude(),epsilon);
+		assertEquals(expectedMax.getLatitude(),pointMax.getLatitude(),epsilon);
+		assertEquals(expectedMax.getLongitude(),pointMax.getLongitude(),epsilon);
 	}
 	
 	@Test
 	void testTileBounds2() {
-		Tile tile =  Tile.fromTms(1, 1, 3);
+		Tile tile =  Tile.fromTms(1, 1, 1);
 		Point pointMin = tile.bounds()[0];
 		Point pointMax = tile.bounds()[1];
 		Point expectedMin= new Point(0.0, 0.0);
 		Point expectedMax = new Point(85.05, 180.0);
-		assertEquals(expectedMin.getLatitude(),pointMin.getLatitude());
-		assertEquals(expectedMin.getLongitude(),pointMin.getLongitude());
-		assertEquals(expectedMax.getLatitude(),pointMax.getLatitude());
-		assertEquals(expectedMax.getLongitude(),pointMax.getLongitude());
+		assertEquals(expectedMin.getLatitude(),pointMin.getLatitude(),epsilon);
+		assertEquals(expectedMin.getLongitude(),pointMin.getLongitude(),epsilon);
+		assertEquals(expectedMax.getLatitude(),pointMax.getLatitude(),epsilon);
+		assertEquals(expectedMax.getLongitude(),pointMax.getLongitude(),epsilon);
 	}
 	
 	@Test
 	void testTileBounds3() {
-		Tile tile =  Tile.fromTms(0, 0, 3);
+		Tile tile =  Tile.fromTms(0, 0, 1);
 		Point pointMin = tile.bounds()[0];
 		Point pointMax = tile.bounds()[1];
 		Point expectedMin= new Point(-85.05, -180.0);
 		Point expectedMax = new Point(0.0, 0.0);
-		assertEquals(expectedMin.getLatitude(),pointMin.getLatitude());
-		assertEquals(expectedMin.getLongitude(),pointMin.getLongitude());
-		assertEquals(expectedMax.getLatitude(),pointMax.getLatitude());
-		assertEquals(expectedMax.getLongitude(),pointMax.getLongitude());
+		assertEquals(expectedMin.getLatitude(),pointMin.getLatitude(),epsilon);
+		assertEquals(expectedMin.getLongitude(),pointMin.getLongitude(),epsilon);
+		assertEquals(expectedMax.getLatitude(),pointMax.getLatitude(),epsilon);
+		assertEquals(expectedMax.getLongitude(),pointMax.getLongitude(),epsilon);
 	}
 	
 	@Test
 	void testTileBounds4() {
-		Tile tile =  Tile.fromTms(1, 0, 3);
+		Tile tile =  Tile.fromTms(1, 0, 1);
 		Point pointMin = tile.bounds()[0];
 		Point pointMax = tile.bounds()[1];
 		Point expectedMin= new Point(-85.05, 0.0);
 		Point expectedMax = new Point(0.0, 180.0);
-		assertEquals(expectedMin.getLatitude(),pointMin.getLatitude());
-		assertEquals(expectedMin.getLongitude(),pointMin.getLongitude());
-		assertEquals(expectedMax.getLatitude(),pointMax.getLatitude());
-		assertEquals(expectedMax.getLongitude(),pointMax.getLongitude());
+		assertEquals(expectedMin.getLatitude(),pointMin.getLatitude(),epsilon);
+		assertEquals(expectedMin.getLongitude(),pointMin.getLongitude(),epsilon);
+		assertEquals(expectedMax.getLatitude(),pointMax.getLatitude(),epsilon);
+		assertEquals(expectedMax.getLongitude(),pointMax.getLongitude(),epsilon);
 	}
 
 	@Test
 	void latitudeLongitudeTest() {
 		Tile llTile = Tile.forLatitudeLongitude(41.85, -87.65, 19);
-		assertEquals(testTile.getTms()[0],llTile.getTms()[0]);
-		assertEquals(testTile.getTms()[1],llTile.getTms()[1]);
+		assertEquals(testTileChicago.getTms()[0],llTile.getTms()[0]);
+		assertEquals(testTileChicago.getTms()[1],llTile.getTms()[1]);
 	}
 
 	@Test
 	void pointTest() {
-		Point point = Point.fromLatitudeLongitude(41.85, -87.65);
+		Point point = Point.fromLatitudeLongitude(41.85, -87.64999999999998);
 		Tile pointTile = Tile.forPoint(point, 19);
-		assertEquals(testTile.getTms(),pointTile.getTms());
-		assertEquals(testTile.getZoom(),pointTile.getZoom());
+		assertEquals(testTileChicago.getTms()[0],pointTile.getTms()[0]);
+		assertEquals(testTileChicago.getTms()[1],pointTile.getTms()[1]);
+		assertEquals(testTileChicago.getZoom(),pointTile.getZoom());
 	}
 
 	@Test
