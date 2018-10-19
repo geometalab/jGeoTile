@@ -194,7 +194,7 @@ public class Tile {
 	 */
 	public int[] getGoogle() {
 		// """Gets the tile in the Google format, converted from TMS"""
-		int[] google = { tmsX, (int) (Math.pow(2, getZoom() - 1) - tmsY) };
+		int[] google = { tmsX, (int) (Math.pow(2, getZoom()) - 1 - tmsY) };
 		return google;
 	}
 

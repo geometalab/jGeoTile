@@ -75,10 +75,10 @@ class TileTest {
 		Point pointMin = Point.fromPixel(34430464, 49899264,19);
 		Point pointMax = Point.fromPixel(34430720, 49899008,19);
 
-		assertEquals(34430464,boundsTile.bounds()[0].getLatitude());
-		assertEquals(49899264,boundsTile.bounds()[0].getLongitude());
-		assertEquals(34430720,boundsTile.bounds()[1].getLatitude());
-		assertEquals(49899008,boundsTile.bounds()[1].getLongitude());
+		assertEquals(pointMin.getLatitude(),boundsTile.bounds()[0].getLatitude());
+		assertEquals(pointMin.getLongitude(),boundsTile.bounds()[0].getLongitude());
+		assertEquals(pointMax.getLatitude(),boundsTile.bounds()[1].getLatitude());
+		assertEquals(pointMax.getLongitude(),boundsTile.bounds()[1].getLongitude());
 	}
 	private double epsilon = 0.1;
 	@Test
