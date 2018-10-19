@@ -71,14 +71,14 @@ class TileTest {
 
 	@Test
 	void pixelBoundsTest() throws Exception {
-		Tile boundsTile = Tile.fromQuadTree("1202211");
+		Tile boundsTile = Tile.fromQuadTree("0302222310303211330");
 		Point pointMin = Point.fromPixel(34430464, 49899264,19);
 		Point pointMax = Point.fromPixel(34430720, 49899008,19);
 
-		assertEquals(pointMin.getLatitude(),boundsTile.bounds()[0].getLatitude());
-		assertEquals(pointMin.getLongitude(),boundsTile.bounds()[0].getLongitude());
-		assertEquals(pointMax.getLatitude(),boundsTile.bounds()[1].getLatitude());
-		assertEquals(pointMax.getLongitude(),boundsTile.bounds()[1].getLongitude());
+		assertEquals(34430464,boundsTile.bounds()[0].getLatitude());
+		assertEquals(49899264,boundsTile.bounds()[0].getLongitude());
+		assertEquals(34430720,boundsTile.bounds()[1].getLatitude());
+		assertEquals(49899008,boundsTile.bounds()[1].getLongitude());
 	}
 	private double epsilon = 0.1;
 	@Test
