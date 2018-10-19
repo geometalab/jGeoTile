@@ -93,7 +93,7 @@ public class Point {
 	 * @return pixelX
 	 */
 	public int getPixelX(int zoom) {
-        int pixelX = (int)((getMeterX() + Meta.ORIGIN_SHIFT) / Meta.resolution(zoom));
+        int pixelX = (int)(Math.round(((getMeterX() + Meta.ORIGIN_SHIFT) / Meta.resolution(zoom))));
         return Math.abs(pixelX);
 	}
 	
