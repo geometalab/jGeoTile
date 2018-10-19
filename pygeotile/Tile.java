@@ -49,7 +49,6 @@ public class Tile {
 				googleY |= mask;
 
 			default:
-				System.out.println("Error");
 				break;
 			}
 		}
@@ -88,7 +87,8 @@ public class Tile {
 		assert 0 <= googleX && googleX <= max_tile : "Google X needs to be a value between 0 and (2^zoom) -1.";
 		assert 0 <= googleY && googleY <= max_tile : "Google Y needs to be a value between 0 and (2^zoom) -1.";
 		int tmsX = googleX;
-		int tmsY = (int) (Math.pow(2, zoom - 1) - googleY);
+		int tmsY = googleY;
+		tmsY = (int) (Math.pow(2, zoom - 1) - tmsY);
 		return new Tile(tmsX, tmsY, zoom);
 	}
 

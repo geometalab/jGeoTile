@@ -14,38 +14,41 @@ class TileTest {
 	//zoom 7
 	@Test
 	void fromGoogleTest() {
-		Tile googleTile = Tile.fromGoogle(67,44,19);
+		Tile googleTile = Tile.fromGoogle(67,44,7);
 		assertEquals(testTile.getTms()[0],googleTile.getTms()[0]);
 		assertEquals(testTile.getTms()[1],googleTile.getTms()[1]);
 	}
 	
 	@Test
 	void fromTmsTest() {
-		Tile tmsTile = Tile.fromTms(67, 83, 19);
+		Tile tmsTile = Tile.fromTms(67, 83, 7);
 		assertEquals(testTile.getTms()[0],tmsTile.getTms()[0]);
 		assertEquals(testTile.getTms()[1],tmsTile.getTms()[1]);
 	}
 	
 	@Test
 	void fromTasmaniaTest() {
-		int[] tmsTasmania = {1853,758};
 		Tile tasmania = Tile.fromGoogle(1853, 1289, 7);
-		assertEquals(tmsTasmania,tasmania.getTms());
+		assertEquals(1853,tasmania.getTms()[0]);
+		assertEquals(758,tasmania.getTms()[1]);
 	}
 	
 	@Test
 	void fromQuadTreeTest() throws Exception {
 		Tile quadTreeTile = Tile.fromQuadTree("1202211");
-		assertEquals(testTile.getTms(),quadTreeTile.getTms());
+		assertEquals(testTile.getTms()[0],quadTreeTile.getTms()[0]);
+		assertEquals(testTile.getTms()[1],quadTreeTile.getTms()[1]);
 		assertEquals(testTile.getZoom(),quadTreeTile.getZoom());
 	}
 	
 	@Test
 	void crossCheckTest() throws Exception {
 		Tile crossCheckTile = Tile.fromQuadTree("1202211");
-		assertEquals(testTile.getTms(),crossCheckTile.getTms());
+		assertEquals(testTile.getTms()[0],crossCheckTile.getTms()[0]);
+		assertEquals(testTile.getTms()[1],crossCheckTile.getTms()[1]);
 		assertEquals(testTile.getZoom(),crossCheckTile.getZoom());
-		assertEquals(testTile.getGoogle(),crossCheckTile.getGoogle());
+		assertEquals(testTile.getGoogle()[0],crossCheckTile.getGoogle()[0]);
+		assertEquals(testTile.getGoogle()[1],crossCheckTile.getGoogle()[1]);
 		assertEquals(testTile.quadTree(),crossCheckTile.quadTree());
 	}
 	
@@ -69,11 +72,13 @@ class TileTest {
 	@Test
 	void pixelBoundsTest() throws Exception {
 		Tile boundsTile = Tile.fromQuadTree("1202211");
-		Point pointMin = Point.fromPixel(34430464, 49899264,7);
-		Point pointMax = Point.fromPixel(34430720, 49899008,7);
+		Point pointMin = Point.fromPixel(34430464, 49899264,19);
+		Point pointMax = Point.fromPixel(34430720, 49899008,19);
 
-		assertEquals(pointMin,boundsTile.bounds()[0]);
-		assertEquals(pointMax,boundsTile.bounds()[1]);
+		assertEquals(pointMin.getLatitude(),boundsTile.bounds()[0].getLatitude());
+		assertEquals(pointMin.getLongitude(),boundsTile.bounds()[0].getLongitude());
+		assertEquals(pointMax.getLatitude(),boundsTile.bounds()[1].getLatitude());
+		assertEquals(pointMax.getLongitude(),boundsTile.bounds()[1].getLongitude());
 	}
 	private double epsilon = 0.1;
 	@Test
