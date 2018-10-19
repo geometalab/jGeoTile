@@ -27,26 +27,29 @@ public class Tile {
 	 */
 	public static Tile fromQuadTree(String quadTree) {
 		// """Creates a tile from a Microsoft QuadTree"""
-		int zoom = quadTree.length();
+		final int levelOfDetail = quadTree.length();
 		int googleX = 0;
 		int googleY = 0;
-		int offset = (int) (Math.pow(2, zoom))-1;
+		int offset = (int) (Math.pow(2, levelOfDetail))-1;
 		assert quadTree.matches("^[0-3]*$"):"QuadTree must only contain numbers from 0-3";
-		for (int i = zoom; i > 0; --i) {
+		for (int i = levelOfDetail; i > 0; i--) {
 			int mask = 1 << (i - 1);
-			switch (quadTree.toCharArray()[zoom - i]) {
+			switch (quadTree.charAt(levelOfDetail - i)) {
 			case '0':
 				break;
 
 			case '1':
-				googleX |= mask;
+				googleX += mask;
+				break;
 
 			case '2':
-				googleY |= mask;
+				googleY += mask;
+				break;
 
 			case '3':
-				googleX |= mask;
-				googleY |= mask;
+				googleX += mask;
+				googleY += mask;
+				break;
 
 			default:
 				break;
@@ -54,7 +57,8 @@ public class Tile {
 		}
 		int tmsX = googleX;
 		int tmsY = offset - googleY;
-		return new Tile(tmsX, tmsY, zoom);
+		System.out.println(tmsX + ", " + tmsY);
+		return new Tile(tmsX, tmsY, levelOfDetail);
 	}
 
 	/**
@@ -88,7 +92,7 @@ public class Tile {
 		assert 0 <= googleY && googleY <= max_tile : "Google Y needs to be a value between 0 and (2^zoom) -1.";
 		int tmsX = googleX;
 		int tmsY = googleY;
-		tmsY = (int) (Math.pow(2, zoom - 1) - tmsY);
+		tmsY = (int) (Math.pow(2, zoom) - 1 - tmsY);
 		return new Tile(tmsX, tmsY, zoom);
 	}
 
@@ -116,7 +120,7 @@ public class Tile {
 		// """Creates a tile from pixels X Y Z (zoom) in pyramid"""
 		int tmsX = (int) (Math.ceil(pixelX / tileSize) - 1);
 		int tmsY = (int) (Math.ceil(pixelY / tileSize) - 1);
-		tmsY = (int) (Math.pow(2, zoom - 1) - tmsY);
+		tmsY = (int) (Math.pow(2, zoom) - 1 - tmsY);
 
 		return new Tile(tmsX, tmsY, zoom);
 	}

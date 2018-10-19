@@ -28,7 +28,7 @@ class TileTest {
 	
 	@Test
 	void fromTasmaniaTest() {
-		Tile tasmania = Tile.fromGoogle(1853, 1289, 7);
+		Tile tasmania = Tile.fromGoogle(1853, 1289, 11);
 		assertEquals(1853,tasmania.getTms()[0]);
 		assertEquals(758,tasmania.getTms()[1]);
 	}
