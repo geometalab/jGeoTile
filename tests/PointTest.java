@@ -171,7 +171,7 @@ public class PointTest {
 		assertEquals(expectedY, point.getMeterY(), epsilon);
 		assertEquals(point.getPixelX(zoom), pixelX);
 		assertEquals(pixelX, point.getPixelX(zoom));
-//		assertEquals(pixelY, point.getPixelY(zoom));
+		assertEquals(pixelY, point.getPixelY(zoom));
 		
 		pixelX = 256;
 		pixelY = 512;
@@ -183,7 +183,7 @@ public class PointTest {
 		assertEquals(expectedX, point.getMeterX(), epsilon);
 		assertEquals(expectedY, point.getMeterY(), epsilon);
 		assertEquals(pixelX, point.getPixelX(zoom));
-//		assertEquals(pixelY, point.getPixelY(zoom));
+		assertEquals(pixelY, point.getPixelY(zoom));
 		
 		pixelX = 512;
 		pixelY = 512;
@@ -195,7 +195,7 @@ public class PointTest {
 		assertEquals(expectedX, point.getMeterX(), epsilon);
 		assertEquals(expectedY, point.getMeterY(), epsilon);
 		assertEquals(pixelX, point.getPixelX(zoom));
-//		assertEquals(pixelY, point.getPixelY(zoom));
+		assertEquals(pixelY, point.getPixelY(zoom));
 	}
 	
 	@Test
@@ -283,7 +283,7 @@ public class PointTest {
 		assertEquals(expectedX, point.getLatitude(), epsilon);
 		assertEquals(expectedY, point.getLongitude(), epsilon);
 		assertEquals(pixelX, point.getPixelX(zoom));
-//		assertEquals(pixelY, point.getPixelY(zoom));
+		assertEquals(pixelY, point.getPixelY(zoom));
 		
 		pixelX = 256;
 		pixelY = 512;
@@ -295,7 +295,7 @@ public class PointTest {
 		assertEquals(expectedX, point.getLatitude(), epsilon);
 		assertEquals(expectedY, point.getLongitude(), epsilon);
 		assertEquals(pixelX, point.getPixelX(zoom));
-//		assertEquals(pixelY, point.getPixelY(zoom));
+		assertEquals(pixelY, point.getPixelY(zoom));
 		
 		pixelX = 512;
 		pixelY = 512;
@@ -307,7 +307,7 @@ public class PointTest {
 		assertEquals(expectedX, point.getLatitude(), epsilon);
 		assertEquals(expectedY, point.getLongitude(), epsilon);
 		assertEquals(pixelX, point.getPixelX(zoom));
-//		assertEquals(pixelY, point.getPixelY(zoom));
+		assertEquals(pixelY, point.getPixelY(zoom));
 	}
 	
 	@Test
@@ -436,7 +436,10 @@ public class PointTest {
 	
 	@Test
 	public void testNoAssertLongitude() {
-//	TODO
+		Point.fromLatitudeLongitude(10.0, 180.0);
+		Point.fromLatitudeLongitude(10.0, -180.0);
+		Point.fromLatitudeLongitude(10.0, 0.0);
+		assert(true);
 	}
 	
 	@Test
@@ -454,7 +457,10 @@ public class PointTest {
 	
 	@Test
 	public void testNoAssertLatitude() {
-//		 TODO
+		Point.fromLatitudeLongitude(90.0, 10.0);
+		Point.fromLatitudeLongitude(-90.0, 10.0);
+		Point.fromLatitudeLongitude(0.0, 10.0);
+		assert(true);
 	}
 	
 	@Test
@@ -472,7 +478,10 @@ public class PointTest {
 	
 	@Test
 	public void testNoAssertPixelX() {
-//		 TODO
+		Point.fromPixel(10, 10, 1);
+		Point.fromPixel(512, 10, 1);
+		Point.fromPixel(1024, 10, 2);
+		assert(true);
 	}
 	
 	@Test
@@ -490,7 +499,10 @@ public class PointTest {
 	
 	@Test
 	public void testNoAssertPixelY() {
-//		 TODO
+		Point.fromPixel(10, 10, 1);
+		Point.fromPixel(10, 512, 1);
+		Point.fromPixel(10, 1024, 2);
+		assert(true);
 	}
 	
 	@Test

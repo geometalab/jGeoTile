@@ -103,7 +103,7 @@ public class Point {
 	 * @return pixelY
 	 */
 	public int getPixelY(int zoom) {
-        int pixelY = (int)((getMeterY() - Meta.ORIGIN_SHIFT) / Meta.resolution(zoom));
+        int pixelY = (int)(Math.round(((getMeterY() - Meta.ORIGIN_SHIFT) / Meta.resolution(zoom))));
         return Math.abs(pixelY);
 	}
 	
