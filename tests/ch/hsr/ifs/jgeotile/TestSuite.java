@@ -1,4 +1,4 @@
-package ch.hsr.ifs.tests;
+package ch.hsr.ifs.jgeotile;
 
 import org.junit.platform.runner.JUnitPlatform;
 import org.junit.platform.suite.api.SelectClasses;

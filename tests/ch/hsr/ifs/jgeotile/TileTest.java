@@ -1,4 +1,4 @@
-package ch.hsr.ifs.tests;
+package ch.hsr.ifs.jgeotile;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
