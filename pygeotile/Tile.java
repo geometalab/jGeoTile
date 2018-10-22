@@ -208,7 +208,7 @@ public class Tile {
 
 	}
 	
-	private int getZoom() {
+	public int getZoom() {
 		return zoom;
 	}
 
