@@ -53,7 +53,7 @@ class TileTest {
 		assertEquals(zoom, tile.getZoom());
 		assertEquals(googleX, tile.getGoogle()[0]);
 		assertEquals(googleY, tile.getGoogle()[1]);
-		assertEquals(quadTree, tile.quadTree());
+		assertEquals(quadTree, tile.getQuadTree());
 	}
 	
 	@Test
@@ -74,8 +74,8 @@ class TileTest {
 	@Test
 	void testPixelBoundsChicago() {
 		Tile tile = Tile.fromQuadTree(Chicago.quadTree);
-		Point pointMin = tile.bounds()[0];
-		Point pointMax = tile.bounds()[1];
+		Point pointMin = tile.getBounds()[0];
+		Point pointMax = tile.getBounds()[1];
 		assertEquals(Chicago.lowerPixelBoundX, pointMin.getPixelX(tile.getZoom()));
 		assertEquals(Chicago.lowerPixelBoundY, pointMin.getPixelY(tile.getZoom()));
 		assertEquals(Chicago.upperPixelBoundX, pointMax.getPixelX(tile.getZoom()));
@@ -85,8 +85,8 @@ class TileTest {
 	@Test
 	void testTileBounds1() {
 		Tile tile =  Tile.fromTms(0, 1, 1);
-		Point pointMin = tile.bounds()[0];
-		Point pointMax = tile.bounds()[1];
+		Point pointMin = tile.getBounds()[0];
+		Point pointMax = tile.getBounds()[1];
 		assertEquals(0.0, pointMin.getLatitude(), epsilon);
 		assertEquals(-180.0, pointMin.getLongitude(), epsilon);
 		assertEquals(85.05, pointMax.getLatitude(), epsilon);
@@ -96,8 +96,8 @@ class TileTest {
 	@Test
 	void testTileBounds2() {
 		Tile tile =  Tile.fromTms(1, 1, 1);
-		Point pointMin = tile.bounds()[0];
-		Point pointMax = tile.bounds()[1];
+		Point pointMin = tile.getBounds()[0];
+		Point pointMax = tile.getBounds()[1];
 		assertEquals(0.0, pointMin.getLatitude(), epsilon);
 		assertEquals(0.0, pointMin.getLongitude(), epsilon);
 		assertEquals(85.05, pointMax.getLatitude(), epsilon);
@@ -107,8 +107,8 @@ class TileTest {
 	@Test
 	void testTileBounds3() {
 		Tile tile =  Tile.fromTms(0, 0, 1);
-		Point pointMin = tile.bounds()[0];
-		Point pointMax = tile.bounds()[1];
+		Point pointMin = tile.getBounds()[0];
+		Point pointMax = tile.getBounds()[1];
 		assertEquals(-85.05, pointMin.getLatitude(), epsilon);
 		assertEquals(-180.0, pointMin.getLongitude(), epsilon);
 		assertEquals(0.0, pointMax.getLatitude(), epsilon);
@@ -118,8 +118,8 @@ class TileTest {
 	@Test
 	void testTileBounds4() {
 		Tile tile =  Tile.fromTms(1, 0, 1);
-		Point pointMin = tile.bounds()[0];
-		Point pointMax = tile.bounds()[1];
+		Point pointMin = tile.getBounds()[0];
+		Point pointMax = tile.getBounds()[1];
 		assertEquals(-85.05, pointMin.getLatitude(), epsilon);
 		assertEquals(0.0, pointMin.getLongitude(), epsilon);
 		assertEquals(0.0, pointMax.getLatitude(), epsilon);
