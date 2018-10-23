@@ -1,5 +1,6 @@
 package ch.hsr.ifs.jgeotile;
 import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import org.junit.jupiter.api.Test;
@@ -457,26 +458,22 @@ public class PointTest {
 	
 	@Test
 	public void testNoAssertLongitude1() {
-		Point.fromLatitudeLongitude(10.0, 180.0);
-		assert(true);
+		assertAll(()->Point.fromLatitudeLongitude(10.0, 180.0));
 	}
 	
 	@Test
 	public void testNoAssertLongitude2() {
-		Point.fromLatitudeLongitude(10.0, -180.0);
-		assert(true);
+		assertAll(()->Point.fromLatitudeLongitude(10.0, -180.0));
 	}
 	
 	@Test
 	public void testNoAssertLongitude3() {
-		Point.fromLatitudeLongitude(10.0, 0.0);
-		assert(true);
+		assertAll(()->Point.fromLatitudeLongitude(10.0, 0.0));
 	}
 	
 	@Test
 	public void testNoAssertLongitude4() {
-		Point.fromLatitudeLongitude(10.0, 90.0);
-		assert(true);
+		assertAll(()->Point.fromLatitudeLongitude(10.0, 90.0));
 	}
 	
 	@Test
@@ -529,20 +526,17 @@ public class PointTest {
 	
 	@Test
 	public void testNoAssertLatitude1() {
-		Point.fromLatitudeLongitude(90.0, 10.0);
-		assert(true);
+		assertAll(()->Point.fromLatitudeLongitude(90.0, 10.0));
 	}
 	
 	@Test
 	public void testNoAssertLatitude2() {
-		Point.fromLatitudeLongitude(-90.0, 10.0);
-		assert(true);
+		assertAll(()->Point.fromLatitudeLongitude(-90.0, 10.0));
 	}
 	
 	@Test
 	public void testNoAssertLatitude3() {
-		Point.fromLatitudeLongitude(0.0, 10.0);
-		assert(true);
+		assertAll(()->Point.fromLatitudeLongitude(0.0, 10.0));
 	}
 	
 	@Test
@@ -579,26 +573,22 @@ public class PointTest {
 	
 	@Test
 	public void testNoAssertPixelX1() {
-		Point.fromPixel(10, 10, 1);
-		assert(true);
+		assertAll(()->Point.fromPixel(10, 10, 1));
 	}
 	
 	@Test
 	public void testNoAssertPixelX2() {
-		Point.fromPixel(0, 10, 1);
-		assert(true);
+		assertAll(()->Point.fromPixel(0, 10, 1));
 	}
 	
 	@Test
 	public void testNoAssertPixelX3() {
-		Point.fromPixel(512, 10, 1);
-		assert(true);
+		assertAll(()->Point.fromPixel(512, 10, 1));
 	}
 	
 	@Test
 	public void testNoAssertPixelX4() {
-		Point.fromPixel(1024, 10, 2);
-		assert(true);
+		assertAll(()->Point.fromPixel(1024, 10, 2));
 	}
 	
 	@Test
@@ -635,26 +625,22 @@ public class PointTest {
 	
 	@Test
 	public void testNoAssertPixelY1() {
-		Point.fromPixel(10, 10, 1);
-		assert(true);
+		assertAll(()->Point.fromPixel(10, 10, 1));
 	}
 	
 	@Test
 	public void testNoAssertPixelY2() {
-		Point.fromPixel(10, 0, 1);
-		assert(true);
+		assertAll(()->Point.fromPixel(10, 0, 1));
 	}
 	
 	@Test
 	public void testNoAssertPixelY3() {
-		Point.fromPixel(10, 512, 1);
-		assert(true);
+		assertAll(()->Point.fromPixel(10, 512, 1));
 	}
 	
 	@Test
 	public void testNoAssertPixelY4() {
-		Point.fromPixel(10, 1024, 2);
-		assert(true);
+		assertAll(()->Point.fromPixel(10, 1024, 2));
 	}
 	
 	@Test
@@ -691,26 +677,22 @@ public class PointTest {
 	
 	@Test
 	public void testNoAssertMeterX1() {
-		Point.fromMeters(-Meta.ORIGIN_SHIFT, 10.0);
-		assert(true);
+		assertAll(()->Point.fromMeters(-Meta.ORIGIN_SHIFT, 10.0));
 	}
 	
 	@Test
 	public void testNoAssertMeterX2() {
-		Point.fromMeters(-Meta.ORIGIN_SHIFT+0.1, 10.0);
-		assert(true);
+		assertAll(()->Point.fromMeters(-Meta.ORIGIN_SHIFT+0.1, 10.0));
 	}
 	
 	@Test
 	public void testNoAssertMeterX3() {
-		Point.fromMeters(Meta.ORIGIN_SHIFT, 10.0);
-		assert(true);
+		assertAll(()->Point.fromMeters(Meta.ORIGIN_SHIFT, 10.0));
 	}
 	
 	@Test
 	public void testNoAssertMeterX4() {
-		Point.fromMeters(Meta.ORIGIN_SHIFT-0.1, 10.0);
-		assert(true);
+		assertAll(()->Point.fromMeters(Meta.ORIGIN_SHIFT-0.1, 10.0));
 	}
 	
 	@Test
@@ -747,26 +729,22 @@ public class PointTest {
 	
 	@Test
 	public void testNoAssertMeterY1() {
-		Point.fromMeters(10.0, -Meta.ORIGIN_SHIFT);
-		assert(true);
+		assertAll(()->Point.fromMeters(10.0, -Meta.ORIGIN_SHIFT));
 	}
 	
 	@Test
 	public void testNoAssertMeterY2() {
-		Point.fromMeters(10.0, -Meta.ORIGIN_SHIFT+0.1);
-		assert(true);
+		assertAll(()->Point.fromMeters(10.0, -Meta.ORIGIN_SHIFT+0.1));
 	}
 	
 	@Test
 	public void testNoAssertMeterY3() {
-		Point.fromMeters(10.0, Meta.ORIGIN_SHIFT);
-		assert(true);
+		assertAll(()->Point.fromMeters(10.0, Meta.ORIGIN_SHIFT));
 	}
 	
 	@Test
 	public void testNoAssertMeterY4() {
-		Point.fromMeters(10.0, Meta.ORIGIN_SHIFT-0.1);
-		assert(true);
+		assertAll(()->Point.fromMeters(10.0, Meta.ORIGIN_SHIFT-0.1));
 	}
 	
 }

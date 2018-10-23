@@ -1,7 +1,6 @@
 package ch.hsr.ifs.jgeotile;
-import static org.junit.jupiter.api.Assertions.*;
-import static org.junit.jupiter.api.Assertions.assertThrows;
 
+import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.Test;
 
 import ch.hsr.ifs.jgeotile.Point;
@@ -9,93 +8,89 @@ import ch.hsr.ifs.jgeotile.Tile;
 
 class TileTest {
 	
-	private Tile testTileChicago = Tile.forPixels(34430575, 49899071, 19);
-	private Tile testTile = Tile.fromTms(67, 83, 7);
-	//private Tile testTile2 = Tile.fromQuadTree("1202211");
-	//TMS (67,83)
-	//google (67,44)
-	// quadtree "1202211"
-	//zoom 7
+	private static final int tmsX = 67;
+	private static final int tmsY = 83;
+	private static final int googleX = 67;
+	private static final int googleY = 44;
+	private static final String quadTree = "1202211";
+	private static final int zoom = 7;
+	private static final double epsilon = 0.1;
+	
 	@Test
-	void fromGoogleTest() {
-		Tile googleTile = Tile.fromGoogle(67,44,7);
-		assertEquals(testTile.getTms()[0],googleTile.getTms()[0]);
-		assertEquals(testTile.getTms()[1],googleTile.getTms()[1]);
+	void testFromGoogle() {
+		Tile tile = Tile.fromGoogle(googleX, googleY, zoom);
+		assertEquals(tmsX, tile.getTms()[0]);
+		assertEquals(tmsY, tile.getTms()[1]);
 	}
 	
 	@Test
-	void fromTmsTest() {
-		Tile tmsTile = Tile.fromTms(67, 83, 7);
-		assertEquals(testTile.getTms()[0],tmsTile.getTms()[0]);
-		assertEquals(testTile.getTms()[1],tmsTile.getTms()[1]);
+	void testFromGoogleTasmania() {
+		Tile tile = Tile.fromGoogle(1853, 1289, 11);
+		assertEquals(1853, tile.getTms()[0]);
+		assertEquals(758, tile.getTms()[1]);
 	}
 	
 	@Test
-	void fromTasmaniaTest() {
-		Tile tasmania = Tile.fromGoogle(1853, 1289, 11);
-		assertEquals(1853,tasmania.getTms()[0]);
-		assertEquals(758,tasmania.getTms()[1]);
+	void testFromTms() {
+		Tile tile = Tile.fromTms(tmsX, tmsY, zoom);
+		assertEquals(tmsX, tile.getTms()[0]);
+		assertEquals(tmsY, tile.getTms()[1]);
 	}
 	
 	@Test
-	void fromQuadTreeTest() throws Exception {
-		Tile quadTreeTile = Tile.fromQuadTree("1202211");
-		assertEquals(testTile.getTms()[0],quadTreeTile.getTms()[0]);
-		assertEquals(testTile.getTms()[1],quadTreeTile.getTms()[1]);
-		assertEquals(testTile.getZoom(),quadTreeTile.getZoom());
+	void testFromQuadTree() {
+		Tile tile = Tile.fromQuadTree(quadTree);
+		assertEquals(tmsX, tile.getTms()[0]);
+		assertEquals(tmsY, tile.getTms()[1]);
+		assertEquals(zoom, tile.getZoom());
 	}
 	
 	@Test
-	void crossCheckTest() throws Exception {
-		Tile crossCheckTile = Tile.fromQuadTree("1202211");
-		assertEquals(testTile.getTms()[0],crossCheckTile.getTms()[0]);
-		assertEquals(testTile.getTms()[1],crossCheckTile.getTms()[1]);
-		assertEquals(testTile.getZoom(),crossCheckTile.getZoom());
-		assertEquals(testTile.getGoogle()[0],crossCheckTile.getGoogle()[0]);
-		assertEquals(testTile.getGoogle()[1],crossCheckTile.getGoogle()[1]);
-		assertEquals(testTile.quadTree(),crossCheckTile.quadTree());
+	void testCrossCheck() {
+		Tile tile = Tile.fromQuadTree(quadTree);
+		assertEquals(tmsX, tile.getTms()[0]);
+		assertEquals(tmsY, tile.getTms()[1]);
+		assertEquals(zoom, tile.getZoom());
+		assertEquals(googleX, tile.getGoogle()[0]);
+		assertEquals(googleY, tile.getGoogle()[1]);
+		assertEquals(quadTree, tile.quadTree());
 	}
 	
 	@Test
-	void forPixelsTest() {
-		Tile pixelsTile = Tile.forPixels(34430575, 49899071, 19);
-		assertEquals(testTileChicago.getTms()[0],pixelsTile.getTms()[0]);
-		assertEquals(testTileChicago.getTms()[1],pixelsTile.getTms()[1]);
+	void testForPixelChicago() {
+		Tile tile = Tile.forPixels(Chicago.pixelX, Chicago.pixelY, Chicago.zoom);
+		assertEquals(Chicago.tmsX, tile.getTms()[0]);
+		assertEquals(Chicago.tmsY, tile.getTms()[1]);
 	}
-
+	
 	@Test
-	void forMetersTest() {
-		Point testPoint = Point.fromPixel(34430575, 49899071, 19);
-		double meterx = testPoint.getMeterX();
-		double metery = testPoint.getMeterY();
-		Tile meterTile = Tile.forMeters(meterx, metery, 19);
-		assertEquals(testTileChicago.getTms()[0],meterTile.getTms()[0]);
-		assertEquals(testTileChicago.getTms()[1],meterTile.getTms()[1]);
+	void testForMetersChicago() {
+		Point point = Point.fromPixel(Chicago.pixelX, Chicago.pixelY, Chicago.zoom);
+		Tile tile = Tile.forMeters(point.getMeterX(), point.getMeterY(), Chicago.zoom);
+		assertEquals(Chicago.tmsX, tile.getTms()[0]);
+		assertEquals(Chicago.tmsY, tile.getTms()[1]);
 	}
-
+	
 	@Test
-	void pixelBoundsTest() throws Exception {
-		Tile boundsTile = Tile.fromQuadTree("0302222310303211330");
-		Point pointMin = Point.fromPixel(34430464, 49899264,19);
-		Point pointMax = Point.fromPixel(34430720, 49899008,19);
-
-		assertEquals(pointMin.getLatitude(),boundsTile.bounds()[0].getLatitude());
-		assertEquals(pointMin.getLongitude(),boundsTile.bounds()[0].getLongitude());
-		assertEquals(pointMax.getLatitude(),boundsTile.bounds()[1].getLatitude());
-		assertEquals(pointMax.getLongitude(),boundsTile.bounds()[1].getLongitude());
+	void testPixelBoundsChicago() {
+		Tile tile = Tile.fromQuadTree(Chicago.quadTree);
+		Point pointMin = tile.bounds()[0];
+		Point pointMax = tile.bounds()[1];
+		assertEquals(Chicago.lowerPixelBoundX, pointMin.getPixelX(tile.getZoom()));
+		assertEquals(Chicago.lowerPixelBoundY, pointMin.getPixelY(tile.getZoom()));
+		assertEquals(Chicago.upperPixelBoundX, pointMax.getPixelX(tile.getZoom()));
+		assertEquals(Chicago.upperPixelBoundY, pointMax.getPixelY(tile.getZoom()));
 	}
-	private double epsilon = 0.1;
+	
 	@Test
 	void testTileBounds1() {
 		Tile tile =  Tile.fromTms(0, 1, 1);
 		Point pointMin = tile.bounds()[0];
 		Point pointMax = tile.bounds()[1];
-		Point expectedMin= new Point(0.0, -180.0);
-		Point expectedMax = new Point(85.05, 0.0);
-		assertEquals(expectedMin.getLatitude(),pointMin.getLatitude(),epsilon);
-		assertEquals(expectedMin.getLongitude(),pointMin.getLongitude(),epsilon);
-		assertEquals(expectedMax.getLatitude(),pointMax.getLatitude(),epsilon);
-		assertEquals(expectedMax.getLongitude(),pointMax.getLongitude(),epsilon);
+		assertEquals(0.0, pointMin.getLatitude(), epsilon);
+		assertEquals(-180.0, pointMin.getLongitude(), epsilon);
+		assertEquals(85.05, pointMax.getLatitude(), epsilon);
+		assertEquals(0.0 ,pointMax.getLongitude(), epsilon);
 	}
 	
 	@Test
@@ -103,12 +98,10 @@ class TileTest {
 		Tile tile =  Tile.fromTms(1, 1, 1);
 		Point pointMin = tile.bounds()[0];
 		Point pointMax = tile.bounds()[1];
-		Point expectedMin= new Point(0.0, 0.0);
-		Point expectedMax = new Point(85.05, 180.0);
-		assertEquals(expectedMin.getLatitude(),pointMin.getLatitude(),epsilon);
-		assertEquals(expectedMin.getLongitude(),pointMin.getLongitude(),epsilon);
-		assertEquals(expectedMax.getLatitude(),pointMax.getLatitude(),epsilon);
-		assertEquals(expectedMax.getLongitude(),pointMax.getLongitude(),epsilon);
+		assertEquals(0.0, pointMin.getLatitude(), epsilon);
+		assertEquals(0.0, pointMin.getLongitude(), epsilon);
+		assertEquals(85.05, pointMax.getLatitude(), epsilon);
+		assertEquals(180.0 ,pointMax.getLongitude(), epsilon);
 	}
 	
 	@Test
@@ -116,12 +109,10 @@ class TileTest {
 		Tile tile =  Tile.fromTms(0, 0, 1);
 		Point pointMin = tile.bounds()[0];
 		Point pointMax = tile.bounds()[1];
-		Point expectedMin= new Point(-85.05, -180.0);
-		Point expectedMax = new Point(0.0, 0.0);
-		assertEquals(expectedMin.getLatitude(),pointMin.getLatitude(),epsilon);
-		assertEquals(expectedMin.getLongitude(),pointMin.getLongitude(),epsilon);
-		assertEquals(expectedMax.getLatitude(),pointMax.getLatitude(),epsilon);
-		assertEquals(expectedMax.getLongitude(),pointMax.getLongitude(),epsilon);
+		assertEquals(-85.05, pointMin.getLatitude(), epsilon);
+		assertEquals(-180.0, pointMin.getLongitude(), epsilon);
+		assertEquals(0.0, pointMax.getLatitude(), epsilon);
+		assertEquals(0.0 ,pointMax.getLongitude(), epsilon);
 	}
 	
 	@Test
@@ -129,87 +120,286 @@ class TileTest {
 		Tile tile =  Tile.fromTms(1, 0, 1);
 		Point pointMin = tile.bounds()[0];
 		Point pointMax = tile.bounds()[1];
-		Point expectedMin= new Point(-85.05, 0.0);
-		Point expectedMax = new Point(0.0, 180.0);
-		assertEquals(expectedMin.getLatitude(),pointMin.getLatitude(),epsilon);
-		assertEquals(expectedMin.getLongitude(),pointMin.getLongitude(),epsilon);
-		assertEquals(expectedMax.getLatitude(),pointMax.getLatitude(),epsilon);
-		assertEquals(expectedMax.getLongitude(),pointMax.getLongitude(),epsilon);
-	}
-
-	@Test
-	void latitudeLongitudeTest() {
-		Tile llTile = Tile.forLatitudeLongitude(41.85, -87.65, 19);
-		assertEquals(testTileChicago.getTms()[0],llTile.getTms()[0]);
-		assertEquals(testTileChicago.getTms()[1],llTile.getTms()[1]);
-	}
-
-	@Test
-	void pointTest() {
-		Point point = Point.fromLatitudeLongitude(41.85, -87.64999999999998);
-		Tile pointTile = Tile.forPoint(point, 19);
-		assertEquals(testTileChicago.getTms()[0],pointTile.getTms()[0]);
-		assertEquals(testTileChicago.getTms()[1],pointTile.getTms()[1]);
-		assertEquals(testTileChicago.getZoom(),pointTile.getZoom());
-	}
-
-	@Test
-	void assertTmsX() {
-		assertThrows(AssertionError.class,() -> Tile.fromTms(-1, 0, 1));
-		assertThrows(AssertionError.class,() -> Tile.fromTms(4, 0, 1));
+		assertEquals(-85.05, pointMin.getLatitude(), epsilon);
+		assertEquals(0.0, pointMin.getLongitude(), epsilon);
+		assertEquals(0.0, pointMax.getLatitude(), epsilon);
+		assertEquals(180.0 ,pointMax.getLongitude(), epsilon);
 	}
 	
 	@Test
-	void notAssertTmsX() {
+	void testForLatitudeLongitude() {
+		Tile tile = Tile.forLatitudeLongitude(Chicago.latitude, Chicago.longitude, Chicago.zoom);
+		assertEquals(Chicago.tmsX, tile.getTms()[0]);
+		assertEquals(Chicago.tmsY, tile.getTms()[1]);
+	}
+	
+	@Test
+	void testForPoint() {
+		Point point = Point.fromLatitudeLongitude(Chicago.latitude, Chicago.longitude);
+		Tile tile = Tile.forPoint(point, Chicago.zoom);
+		assertEquals(Chicago.tmsX, tile.getTms()[0]);
+		assertEquals(Chicago.tmsY, tile.getTms()[1]);
+		assertEquals(Chicago.zoom, tile.getZoom());
+	}
+	
+	@Test
+	void testAssertTmsX1() {
+		assertThrows(AssertionError.class,
+				()->{
+					Tile.fromTms(-1, 0, 2);
+				}, "TMS X needs to be a value between 0 and (2^zoom) -1.");
+	}
+	
+	@Test
+	void testAssertTmsX2() {
+		assertThrows(AssertionError.class,
+				()->{
+					Tile.fromTms(-5, 0, 2);
+				}, "TMS X needs to be a value between 0 and (2^zoom) -1.");
+	}
+	
+	@Test
+	void testAssertTmsX3() {
+		assertThrows(AssertionError.class,
+				()->{
+					Tile.fromTms(4, 0, 2);
+				}, "TMS X needs to be a value between 0 and (2^zoom) -1.");
+	}
+	
+	@Test
+	void testAssertTmsX4() {
+		assertThrows(AssertionError.class,
+				()->{
+					Tile.fromTms(10, 0, 2);
+				}, "TMS X needs to be a value between 0 and (2^zoom) -1.");
+	}
+	
+	@Test
+	void testNoAssertTmsX1() {
+		assertAll(()->Tile.fromTms(0, 0, 2));
+	}
+	
+	@Test
+	void testNoAssertTmsX2() {
+		assertAll(()->Tile.fromTms(1, 0, 2));
+	}
+	
+	@Test
+	void testNoAssertTmsX3() {
+		assertAll(()->Tile.fromTms(2, 0, 2));
+	}
+	
+	@Test
+	void testNoAssertTmsX4() {
+		assertAll(()->Tile.fromTms(3, 0, 2));
+	}
+	
+	@Test
+	void testAssertTmsY1() {
+		assertThrows(AssertionError.class,
+				()->{
+					Tile.fromTms(0, -1, 2);
+				}, "TMS Y needs to be a value between 0 and (2^zoom) -1.");
+	}
+	
+	@Test
+	void testAssertTmsY2() {
+		assertThrows(AssertionError.class,
+				()->{
+					Tile.fromTms(0, -5, 2);
+				}, "TMS Y needs to be a value between 0 and (2^zoom) -1.");
+	}
+	
+	@Test
+	void testAssertTmsY3() {
+		assertThrows(AssertionError.class,
+				()->{
+					Tile.fromTms(0, 4, 2);
+				}, "TMS Y needs to be a value between 0 and (2^zoom) -1.");
+	}
+	
+	@Test
+	void testAssertTmsY4() {
+		assertThrows(AssertionError.class,
+				()->{
+					Tile.fromTms(0, 10, 2);
+				}, "TMS Y needs to be a value between 0 and (2^zoom) -1.");
+	}
+	
+	@Test
+	void testNoAssertTmsY1() {
 		assertAll(()-> Tile.fromTms(0, 0, 2));
-		assertAll(()-> Tile.fromTms(3, 0, 2));
 	}
 	
 	@Test
-	void assertTmsY() {
-		assertThrows(AssertionError.class,() -> Tile.fromTms(0, -1, 1));
-		assertThrows(AssertionError.class,() -> Tile.fromTms(0, 4, 1));
+	void testNoAssertTmsY2() {
+		assertAll(()-> Tile.fromTms(0, 1, 2));
 	}
 	
 	@Test
-	void notAssertTmsY() {
-		assertAll(()-> Tile.fromTms(0, 0, 2));
+	void testNoAssertTmsY3() {
+		assertAll(()-> Tile.fromTms(0, 2, 2));
+	}
+	
+	@Test
+	void testNoAssertTmsY4() {
 		assertAll(()-> Tile.fromTms(0, 3, 2));
 	}
 	
 	@Test
-	void asserGoogleX() {
-		assertThrows(AssertionError.class,() -> Tile.fromGoogle(-1, 44, 2));
-		assertThrows(AssertionError.class,() -> Tile.fromGoogle(3, 44, 2));
+	void testAssertGoogleX1() {
+		assertThrows(AssertionError.class,
+				()->{
+					Tile.fromGoogle(-1, 0, 2);
+				}, "Google X needs to be a value between 0 and (2^zoom) -1.");
 	}
 	
 	@Test
-	void notAssertGoogleX() {
-		assertAll(()-> Tile.fromGoogle(0, 44, 10));
-		assertAll(()-> Tile.fromGoogle(2, 44, 10));
-	}
-	
-	void asserGoogleY() {
-		assertThrows(AssertionError.class,() -> Tile.fromGoogle(0, -1, 2));
-		assertThrows(AssertionError.class,() -> Tile.fromGoogle(0, 3, 2));
+	void testAssertGoogleX2() {
+		assertThrows(AssertionError.class,
+				()->{
+					Tile.fromGoogle(-5, 0, 2);
+				}, "Google X needs to be a value between 0 and (2^zoom) -1.");
 	}
 	
 	@Test
-	void notAssertGoogleY() {
+	void testAssertGoogleX3() {
+		assertThrows(AssertionError.class,
+				()->{
+					Tile.fromGoogle(4, 0, 2);
+				}, "Google X needs to be a value between 0 and (2^zoom) -1.");
+	}
+	
+	@Test
+	void testAssertGoogleX4() {
+		assertThrows(AssertionError.class,
+				()->{
+					Tile.fromGoogle(10, 0, 2);
+				}, "Google X needs to be a value between 0 and (2^zoom) -1.");
+	}
+	
+	@Test
+	void testNoAssertGoogleX1() {
+		assertAll(()->Tile.fromGoogle(0, 0, 2));
+	}
+	
+	@Test
+	void testNoAssertGoogleX2() {
+		assertAll(()->Tile.fromGoogle(1, 0, 2));
+	}
+	
+	@Test
+	void testNoAssertGoogleX3() {
+		assertAll(()->Tile.fromGoogle(2, 0, 2));
+	}
+	
+	@Test
+	void testNoAssertGoogleX4() {
+		assertAll(()->Tile.fromGoogle(3, 0, 2));
+	}
+	
+	@Test
+	void testAssertGoogleY1() {
+		assertThrows(AssertionError.class,
+				()->{
+					Tile.fromGoogle(0, -1, 2);
+				}, "Google Y needs to be a value between 0 and (2^zoom) -1.");
+	}
+	
+	@Test
+	void testAssertGoogleY2() {
+		assertThrows(AssertionError.class,
+				()->{
+					Tile.fromGoogle(0, -5, 2);
+				}, "Google Y needs to be a value between 0 and (2^zoom) -1.");
+	}
+	
+	@Test
+	void testAssertGoogleY3() {
+		assertThrows(AssertionError.class,
+				()->{
+					Tile.fromGoogle(0, 4, 2);
+				}, "Google Y needs to be a value between 0 and (2^zoom) -1.");
+	}
+	
+	@Test
+	void testAssertGoogleY4() {
+		assertThrows(AssertionError.class,
+				()->{
+					Tile.fromGoogle(0, 10, 2);
+				}, "Google Y needs to be a value between 0 and (2^zoom) -1.");
+	}
+	
+	@Test
+	void testNoAssertGoogleY1() {
 		assertAll(()-> Tile.fromGoogle(0, 0, 2));
+	}
+	
+	@Test
+	void testNoAssertGoogleY2() {
+		assertAll(()-> Tile.fromGoogle(0, 1, 2));
+	}
+	
+	@Test
+	void testNoAssertGoogleY3() {
 		assertAll(()-> Tile.fromGoogle(0, 2, 2));
 	}
 	
 	@Test
-	void assertQuadTree(){
-		
-		assertThrows(AssertionError.class,() -> Tile.fromQuadTree("A202211"));
-		assertThrows(AssertionError.class,() -> Tile.fromQuadTree("4202211"));
+	void testNoAssertGoogleY4() {
+		assertAll(()-> Tile.fromGoogle(0, 3, 2));
 	}
 	
 	@Test
-	void notAssertQuadTree() {
-		assertAll(()-> Tile.fromQuadTree("0202211"));
-		assertAll(()-> Tile.fromQuadTree("3202211"));
+	void testAssertQuadTree1() {
+		assertThrows(AssertionError.class,
+				()->{
+					Tile.fromQuadTree("-1");
+				}, "QuadTree value can only consists of the digits 0, 1, 2 and 3.");
 	}
+	
+	@Test
+	void testAssertQuadTree2() {
+		assertThrows(AssertionError.class,
+				()->{
+					Tile.fromQuadTree("1235");
+				}, "QuadTree value can only consists of the digits 0, 1, 2 and 3.");
+	}
+	
+	@Test
+	void testAssertQuadTree3() {
+		assertThrows(AssertionError.class,
+				()->{
+					Tile.fromQuadTree("aba");
+				}, "QuadTree value can only consists of the digits 0, 1, 2 and 3.");
+	}
+	
+	@Test
+	void testAssertQuadTree4() {
+		assertThrows(AssertionError.class,
+				()->{
+					Tile.fromQuadTree("9988");
+				}, "QuadTree value can only consists of the digits 0, 1, 2 and 3.");
+	}
+	
+	@Test
+	void testNoAssertQuadTree1() {
+		assertAll(()-> Tile.fromQuadTree("1"));
+	}
+	
+	@Test
+	void testNoAssertQuadTree2() {
+		assertAll(()-> Tile.fromQuadTree("0123"));
+	}
+	
+	@Test
+	void testNoAssertQuadTree3() {
+		assertAll(()-> Tile.fromQuadTree("1231230"));
+	}
+	
+	@Test
+	void testNoAssertQuadTree4() {
+		assertAll(()-> Tile.fromQuadTree("00012"));
+	}
+	
 }
