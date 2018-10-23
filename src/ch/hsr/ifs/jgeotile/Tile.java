@@ -150,7 +150,7 @@ public class Tile {
 
 	/**
 	 *  gives out tmsX and tmsY in an int array
-	 * @return int[]
+	 * @return int[] tms points 
 	 */
 	public int[] getTms() {
 		int[] tms = {tmsX, tmsY };
@@ -159,18 +159,33 @@ public class Tile {
 
 	/**
 	 * Gets the tile in the Microsoft QuadTree format, converted from TMS
-	 * @return String
+	 * @return String QuadTree
 	 */
 	public String getQuadTree() {
 		StringBuilder quadKey = new StringBuilder();
-		for (int i = getZoom(); i > 0; --i) {
+		for (int i = getZoom(); i > 0; i--) {
 			char digit = '0';
 			int mask = 1 << (i - 1);
 			if ((tmsX & mask) != 0) {
 				digit++;
 			}
 			if ((tmsY & mask) != 0) {
-				digit += 2;
+				++digit;
+				++digit;
+			}
+			switch(digit) {
+			case '0':
+				digit = '2';
+				break;
+			case '1':
+				digit = '3';
+				break;
+			case '2':
+				digit = '0';
+				break;
+			case '3':
+				digit = '1';
+				break;
 			}
 			quadKey.append(digit);
 		}
