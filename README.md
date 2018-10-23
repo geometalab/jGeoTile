@@ -28,7 +28,15 @@ System.out.println("Lat/Lon: (" + point.getLatitude() + ", " + getLongitude() + 
 Example of the class Tile.
 
 ```java
-// TODO
+int tmsX = 134494;
+int tmsY = 329369;
+int zoom = 19;
+
+// Tile Map Service (TMS) X Y and zoom
+Tile tile = Tile.fromTms(tmsX, tmsY, zoom)
+
+System.out.println("QuadTree: " + getQuadTree());  // QuadTree:  0302222310303211330
+System.out.println("Google: (" + tile.getGoogleX() + ", " + tile.getGoogleY() + ")");  // Google:  (134494, 194918)
 ```
 
 ## Installation
