@@ -23,7 +23,7 @@ public class Tile {
 	/**
 	 * Creates a tile from a Microsoft QuadTree
 	 * @param quadTree
-	 * @return
+	 * @return Tile new
 	 * @throws Exception
 	 */
 	public static Tile fromQuadTree(String quadTree) {
@@ -65,7 +65,7 @@ public class Tile {
 	 * @param zoom
 	 * @param tmsX
 	 * @param tmsY
-	 * @return
+	 * @return Tile new
 	 */
 	public static Tile fromTms(int tmsX, int tmsY, int zoom) {
 		double max_tile = Math.pow(2, zoom) - 1;
@@ -81,7 +81,7 @@ public class Tile {
 	 * @param googleX
 	 * @param googleY
 	 * @param zoom
-	 * @return
+	 * @return Tile new
 	 */
 	public static Tile fromGoogle(int googleX, int googleY, int zoom) {
 		double max_tile = Math.pow(2, zoom) - 1;
@@ -97,7 +97,7 @@ public class Tile {
 	 * Creates a tile for given point
 	 * @param point
 	 * @param zoom
-	 * @return
+	 * @return Tile new
 	 */
 	public static Tile forPoint(Point point, int zoom) {
 		double latitude = point.getLatitude();
@@ -110,7 +110,7 @@ public class Tile {
 	 * @param pixelX
 	 * @param pixelY
 	 * @param zoom
-	 * @return
+	 * @return Tile new
 	 */
 	public static Tile forPixels(int pixelX, int pixelY, int zoom) {
 		int tmsX = (int) (Math.ceil(pixelX / tileSize) - 1);
@@ -125,7 +125,7 @@ public class Tile {
 	 * @param meterX
 	 * @param meterY
 	 * @param zoom
-	 * @return
+	 * @return Tile new
 	 */
 	public static Tile forMeters(double meterX, double meterY, int zoom) {
 		Point point = Point.fromMeters(meterX, meterY);
@@ -139,7 +139,7 @@ public class Tile {
 	 * @param latitude
 	 * @param longitude
 	 * @param zoom
-	 * @return
+	 * @return Tile new
 	 */
 	public static Tile forLatitudeLongitude(double latitude, double longitude, int zoom) {
 		Point point = Point.fromLatitudeLongitude(latitude, longitude);
