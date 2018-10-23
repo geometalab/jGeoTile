@@ -19,63 +19,63 @@ class TileTest {
 	@Test
 	void testFromGoogle() {
 		Tile tile = Tile.fromGoogle(googleX, googleY, zoom);
-		assertEquals(tmsX, tile.getTms()[0]);
-		assertEquals(tmsY, tile.getTms()[1]);
+		assertEquals(tmsX, tile.getTmsX());
+		assertEquals(tmsY, tile.getTmsY());
 	}
 	
 	@Test
 	void testFromGoogleTasmania() {
 		Tile tile = Tile.fromGoogle(1853, 1289, 11);
-		assertEquals(1853, tile.getTms()[0]);
-		assertEquals(758, tile.getTms()[1]);
+		assertEquals(1853, tile.getTmsX());
+		assertEquals(758, tile.getTmsY());
 	}
 	
 	@Test
 	void testFromTms() {
 		Tile tile = Tile.fromTms(tmsX, tmsY, zoom);
-		assertEquals(tmsX, tile.getTms()[0]);
-		assertEquals(tmsY, tile.getTms()[1]);
+		assertEquals(tmsX, tile.getTmsX());
+		assertEquals(tmsY, tile.getTmsY());
 	}
 	
 	@Test
 	void testFromQuadTree() {
 		Tile tile = Tile.fromQuadTree(quadTree);
-		assertEquals(tmsX, tile.getTms()[0]);
-		assertEquals(tmsY, tile.getTms()[1]);
+		assertEquals(tmsX, tile.getTmsX());
+		assertEquals(tmsY, tile.getTmsY());
 		assertEquals(zoom, tile.getZoom());
 	}
 	
 	@Test
 	void testCrossCheck() {
 		Tile tile = Tile.fromQuadTree(quadTree);
-		assertEquals(tmsX, tile.getTms()[0]);
-		assertEquals(tmsY, tile.getTms()[1]);
+		assertEquals(tmsX, tile.getTmsX());
+		assertEquals(tmsY, tile.getTmsY());
 		assertEquals(zoom, tile.getZoom());
-		assertEquals(googleX, tile.getGoogle()[0]);
-		assertEquals(googleY, tile.getGoogle()[1]);
+		assertEquals(googleX, tile.getGoogleX());
+		assertEquals(googleY, tile.getGoogleY());
 		assertEquals(quadTree, tile.getQuadTree());
 	}
 	
 	@Test
 	void testForPixelChicago() {
 		Tile tile = Tile.forPixels(Chicago.pixelX, Chicago.pixelY, Chicago.zoom);
-		assertEquals(Chicago.tmsX, tile.getTms()[0]);
-		assertEquals(Chicago.tmsY, tile.getTms()[1]);
+		assertEquals(Chicago.tmsX, tile.getTmsX());
+		assertEquals(Chicago.tmsY, tile.getTmsY());
 	}
 	
 	@Test
 	void testForMetersChicago() {
 		Point point = Point.fromPixel(Chicago.pixelX, Chicago.pixelY, Chicago.zoom);
 		Tile tile = Tile.forMeters(point.getMeterX(), point.getMeterY(), Chicago.zoom);
-		assertEquals(Chicago.tmsX, tile.getTms()[0]);
-		assertEquals(Chicago.tmsY, tile.getTms()[1]);
+		assertEquals(Chicago.tmsX, tile.getTmsX());
+		assertEquals(Chicago.tmsY, tile.getTmsY());
 	}
 	
 	@Test
 	void testPixelBoundsChicago() {
 		Tile tile = Tile.fromQuadTree(Chicago.quadTree);
-		Point pointMin = tile.getBounds()[0];
-		Point pointMax = tile.getBounds()[1];
+		Point pointMin = tile.getBoundMin();
+		Point pointMax = tile.getBoundMax();
 		assertEquals(Chicago.lowerPixelBoundX, pointMin.getPixelX(tile.getZoom()));
 		assertEquals(Chicago.lowerPixelBoundY, pointMin.getPixelY(tile.getZoom()));
 		assertEquals(Chicago.upperPixelBoundX, pointMax.getPixelX(tile.getZoom()));
@@ -85,8 +85,8 @@ class TileTest {
 	@Test
 	void testTileBounds1() {
 		Tile tile =  Tile.fromTms(0, 1, 1);
-		Point pointMin = tile.getBounds()[0];
-		Point pointMax = tile.getBounds()[1];
+		Point pointMin = tile.getBoundMin();
+		Point pointMax = tile.getBoundMax();
 		assertEquals(0.0, pointMin.getLatitude(), epsilon);
 		assertEquals(-180.0, pointMin.getLongitude(), epsilon);
 		assertEquals(85.05, pointMax.getLatitude(), epsilon);
@@ -96,8 +96,8 @@ class TileTest {
 	@Test
 	void testTileBounds2() {
 		Tile tile =  Tile.fromTms(1, 1, 1);
-		Point pointMin = tile.getBounds()[0];
-		Point pointMax = tile.getBounds()[1];
+		Point pointMin = tile.getBoundMin();
+		Point pointMax = tile.getBoundMax();
 		assertEquals(0.0, pointMin.getLatitude(), epsilon);
 		assertEquals(0.0, pointMin.getLongitude(), epsilon);
 		assertEquals(85.05, pointMax.getLatitude(), epsilon);
@@ -107,8 +107,8 @@ class TileTest {
 	@Test
 	void testTileBounds3() {
 		Tile tile =  Tile.fromTms(0, 0, 1);
-		Point pointMin = tile.getBounds()[0];
-		Point pointMax = tile.getBounds()[1];
+		Point pointMin = tile.getBoundMin();
+		Point pointMax = tile.getBoundMax();
 		assertEquals(-85.05, pointMin.getLatitude(), epsilon);
 		assertEquals(-180.0, pointMin.getLongitude(), epsilon);
 		assertEquals(0.0, pointMax.getLatitude(), epsilon);
@@ -118,8 +118,8 @@ class TileTest {
 	@Test
 	void testTileBounds4() {
 		Tile tile =  Tile.fromTms(1, 0, 1);
-		Point pointMin = tile.getBounds()[0];
-		Point pointMax = tile.getBounds()[1];
+		Point pointMin = tile.getBoundMin();
+		Point pointMax = tile.getBoundMax();
 		assertEquals(-85.05, pointMin.getLatitude(), epsilon);
 		assertEquals(0.0, pointMin.getLongitude(), epsilon);
 		assertEquals(0.0, pointMax.getLatitude(), epsilon);
@@ -129,16 +129,16 @@ class TileTest {
 	@Test
 	void testForLatitudeLongitude() {
 		Tile tile = Tile.forLatitudeLongitude(Chicago.latitude, Chicago.longitude, Chicago.zoom);
-		assertEquals(Chicago.tmsX, tile.getTms()[0]);
-		assertEquals(Chicago.tmsY, tile.getTms()[1]);
+		assertEquals(Chicago.tmsX, tile.getTmsX());
+		assertEquals(Chicago.tmsY, tile.getTmsY());
 	}
 	
 	@Test
 	void testForPoint() {
 		Point point = Point.fromLatitudeLongitude(Chicago.latitude, Chicago.longitude);
 		Tile tile = Tile.forPoint(point, Chicago.zoom);
-		assertEquals(Chicago.tmsX, tile.getTms()[0]);
-		assertEquals(Chicago.tmsY, tile.getTms()[1]);
+		assertEquals(Chicago.tmsX, tile.getTmsX());
+		assertEquals(Chicago.tmsY, tile.getTmsY());
 		assertEquals(Chicago.zoom, tile.getZoom());
 	}
 	

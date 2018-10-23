@@ -152,9 +152,23 @@ public class Tile {
 	 *  gives out tmsX and tmsY in an int array
 	 * @return int[] tms points 
 	 */
-	public int[] getTms() {
+	private int[] getTms() {
 		int[] tms = {tmsX, tmsY };
 		return tms;
+	}
+	/**
+	 * 
+	 * @return int TMS X Coordinate
+	 */
+	public int getTmsX() {
+		return this.getTms()[0];
+	}
+	/**
+	 * 
+	 * @return int TMS Y Coordiante
+	 */
+	public int getTmsY() {
+		return this.getTms()[1];
 	}
 
 	/**
@@ -197,9 +211,23 @@ public class Tile {
 	 * Gets the tile in the Google format, converted from TMS
 	 * @return int[]
 	 */
-	public int[] getGoogle() {
+	private int[] getGoogle() {
 		int[] google = { tmsX, (int) (Math.pow(2, getZoom()) - 1 - tmsY) };
 		return google;
+	}
+	/**
+	 * 
+	 * @return int Google X Coordinates
+	 */
+	public int getGoogleX() {
+		return this.getGoogle()[0];
+	}
+	/**
+	 * 
+	 * @return int Google Y Coordinates
+	 */
+	public int getGoogleY() {
+		return this.getGoogle()[1];
 	}
 
 	/**
@@ -209,9 +237,9 @@ public class Tile {
 	 *         the Tile.
 	 * 
 	 */
-	public Point[] getBounds() {
-		int googleX = getGoogle()[0];
-		int googleY = getGoogle()[1];
+	private Point[] getBounds() {
+		int googleX = getGoogleX();
+		int googleY = getGoogleY();
 		int pixelXWest = (int) (googleX * tileSize);
 		int pixelYNorth = (int) (googleY * tileSize);
 		int pixelXEast = (int) ((googleX + 1) * tileSize);
@@ -223,7 +251,26 @@ public class Tile {
 		return bounds;
 
 	}
+	/**
+	 * Gets the most South West Point of the tile bounds
+	 * @return Point Most South West
+	 */
+	public Point getBoundMin() {
+		return this.getBounds()[0];
+	}
 	
+	/**
+	 * Gets the most North East Point of the tile bounds
+	 * @return Point Most North East
+	 */
+	public Point getBoundMax() {
+		return this.getBounds()[1];
+	}
+	
+	/**
+	 * 
+	 * @return int zoom
+	 */
 	public int getZoom() {
 		return zoom;
 	}
