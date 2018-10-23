@@ -35,8 +35,8 @@ int zoom = 19;
 // Tile Map Service (TMS) X Y and zoom
 Tile tile = Tile.fromTms(tmsX, tmsY, zoom)
 
-System.out.println("QuadTree: " + getQuadTree());  // QuadTree: 0302222310303211330
-System.out.println("Google: (" + tile.getGoogleX() + ", " + tile.getGoogleY() + ")");  // Google: (134494, 194918)
+System.out.println("QuadTree: " + getQuadTree()); // QuadTree: 0302222310303211330
+System.out.println("Google: (" + tile.getGoogleX() + ", " + tile.getGoogleY() + ")"); // Google: (134494, 194918)
 ```
 
 ## Installation
