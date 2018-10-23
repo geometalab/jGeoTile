@@ -161,7 +161,7 @@ public class Tile {
 	 * Gets the tile in the Microsoft QuadTree format, converted from TMS
 	 * @return String
 	 */
-	public String quadTree() {
+	public String getQuadTree() {
 		StringBuilder quadKey = new StringBuilder();
 		for (int i = getZoom(); i > 0; --i) {
 			char digit = '0';
@@ -194,7 +194,7 @@ public class Tile {
 	 *         the Tile.
 	 * 
 	 */
-	public Point[] bounds() {
+	public Point[] getBounds() {
 		int googleX = getGoogle()[0];
 		int googleY = getGoogle()[1];
 		int pixelXWest = (int) (googleX * tileSize);
