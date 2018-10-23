@@ -19,8 +19,8 @@ int zoom = 19;
 
 Point point = Point.fromMeters(meterX, meterY);
 
-System.out.println("Pixels: (" + point.getPixelX(zoom) + ", " + point.getPixelY(zoom) + ")"); // Pixels:  (34430592, 49899136)
-System.out.println("Lat/Lon: (" + point.getLatitude() + ", " + getLongitude() + ")"); // Lat/Lon:  (41.84987190947754, -87.64995574951166)
+System.out.println("Pixels: (" + point.getPixelX(zoom) + ", " + point.getPixelY(zoom) + ")"); // Pixels: (34430592, 49899136)
+System.out.println("Lat/Lon: (" + point.getLatitude() + ", " + getLongitude() + ")"); // Lat/Lon: (41.84987190947754, -87.64995574951166)
 ```
 
 ### Tile
@@ -35,8 +35,8 @@ int zoom = 19;
 // Tile Map Service (TMS) X Y and zoom
 Tile tile = Tile.fromTms(tmsX, tmsY, zoom)
 
-System.out.println("QuadTree: " + getQuadTree());  // QuadTree:  0302222310303211330
-System.out.println("Google: (" + tile.getGoogleX() + ", " + tile.getGoogleY() + ")");  // Google:  (134494, 194918)
+System.out.println("QuadTree: " + getQuadTree());  // QuadTree: 0302222310303211330
+System.out.println("Google: (" + tile.getGoogleX() + ", " + tile.getGoogleY() + ")");  // Google: (134494, 194918)
 ```
 
 ## Installation
