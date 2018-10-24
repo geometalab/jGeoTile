@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/geometalab/jGeoTile.svg?branch=master)](https://travis-ci.org/geometalab/jGeoTile)
+
 # jGeoTile
 
 Java package to handle tiles and points of different projections, in particular WGS 84 (Latitude, Longitude), Spherical Mercator (Meters), Pixel Pyramid and Tiles (TMS, Google, QuadTree).
