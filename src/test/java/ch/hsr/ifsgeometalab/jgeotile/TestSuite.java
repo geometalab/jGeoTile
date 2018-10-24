@@ -1,4 +1,4 @@
-package ch.hsr.ifs.jgeotile;
+package ch.hsr.ifsgeometalab.jgeotile;
 
 import org.junit.platform.runner.JUnitPlatform;
 import org.junit.platform.suite.api.SelectClasses;

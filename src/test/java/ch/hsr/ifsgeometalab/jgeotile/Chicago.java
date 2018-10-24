@@ -1,4 +1,4 @@
-package ch.hsr.ifs.jgeotile;
+package ch.hsr.ifsgeometalab.jgeotile;
 
 /**
  * Chicago, IL Latitude / Longitude: (41.85, -87.64999999999998)

@@ -1,4 +1,4 @@
-package ch.hsr.ifs.jgeotile;
+package ch.hsr.ifs.geometalab.jgeotile;
 import java.lang.Math;
 
 public class Tile {

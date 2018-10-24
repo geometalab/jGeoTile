@@ -1,10 +1,10 @@
-package ch.hsr.ifs.jgeotile;
+package ch.hsr.ifsgeometalab.jgeotile;
 
 import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.Test;
 
-import ch.hsr.ifs.jgeotile.Point;
-import ch.hsr.ifs.jgeotile.Tile;
+import ch.hsr.ifs.geometalab.jgeotile.Point;
+import ch.hsr.ifs.geometalab.jgeotile.Tile;
 
 class TileTest {
 	

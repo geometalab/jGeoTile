@@ -1,12 +1,13 @@
-package ch.hsr.ifs.jgeotile;
-import static org.junit.Assert.assertEquals;
+package ch.hsr.ifsgeometalab.jgeotile;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import org.junit.jupiter.api.Test;
 
-import ch.hsr.ifs.jgeotile.Meta;
-import ch.hsr.ifs.jgeotile.Point;
+import ch.hsr.ifs.geometalab.jgeotile.Meta;
+import ch.hsr.ifs.geometalab.jgeotile.Point;
 
 public class PointTest {
 

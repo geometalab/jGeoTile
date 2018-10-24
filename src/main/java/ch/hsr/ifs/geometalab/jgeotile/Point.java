@@ -1,4 +1,4 @@
-package ch.hsr.ifs.jgeotile;
+package ch.hsr.ifs.geometalab.jgeotile;
 /**
  * @author Alejandro Gloor
  * @date 2018/10/12

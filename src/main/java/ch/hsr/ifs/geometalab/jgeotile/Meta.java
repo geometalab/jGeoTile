@@ -1,4 +1,4 @@
-package ch.hsr.ifs.jgeotile;
+package ch.hsr.ifs.geometalab.jgeotile;
 public class Meta {
 
 	private static final double EARTH_RADIUS = 6378137.0;
