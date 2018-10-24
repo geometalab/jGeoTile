@@ -1,6 +1,8 @@
 # jGeoTile
 
-Java package to handle tiles and points of different projections, in particular WGS 84 (Latitude, Longitude), Spherical Mercator (Meters), Pixel Pyramid and Tiles (TMS, Google, QuadTree). This package is inspired by pyGeoTile, which is the same in Python.
+Java package to handle tiles and points of different projections, in particular WGS 84 (Latitude, Longitude), Spherical Mercator (Meters), Pixel Pyramid and Tiles (TMS, Google, QuadTree).
+
+This package is inspired by pyGeoTile, which is the counterpart of this package written in Python.
 
 ## Usage
 
